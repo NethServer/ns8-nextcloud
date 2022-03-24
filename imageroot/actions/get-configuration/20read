@@ -41,7 +41,7 @@ config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 try:
     config['default_domain'] = socket.getfqdn().partition('.')[2]
 except:
-    config['default_domain'] = 'nethserver.loc'
+    config['default_domain'] = 'nethserver.test'
 
 # Check if Nextcloud is already installed
 try:
