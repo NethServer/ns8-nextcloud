@@ -34,12 +34,10 @@ import subprocess
 # Prepare return variable
 config = {}
 
-# Read current configuration from Redis
-env = f'module/{os.environ["MODULE_ID"]}/environment'
-rdb = agent.redis_connect()
-config["domain"] = rdb.hget(env, "NEXTCLOUD_DOMAIN")
-config["host"] = rdb.hget(env, "TRAEFIK_HOST");
-config["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT") == "True";
+# Read current configuration from the environment file
+config["domain"] = os.getenv("NEXTCLOUD_DOMAIN")
+config["host"] = os.getenv("TRAEFIK_HOST")
+config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 try:
     config['default_domain'] = socket.getfqdn().partition('.')[2]
 except:
