@@ -48,17 +48,17 @@ if len(sys.argv) < 2:
     print("setup-ldap: no argument given", file=sys.stderr)
     sys.exit(1)
 
-data = json.loads(sys.argv[1])
+cdomain = sys.argv[1]
 commands = []
 
-if not data["domain"]:
+if not cdomain:
     # nothing to do
     sys.exit(0)
 
 lp = Ldapproxy()
-domain = lp.get_domain(data["domain"])
+domain = lp.get_domain(cdomain)
 if not domain:
-    print(f'Domain not found: {data["domain"]}', file=sys.stderr)
+    print(f'Domain not found: {cdomain}', file=sys.stderr)
     sys.exit(1)
 
 max_tries = 60
@@ -124,4 +124,4 @@ else:
     set_ldap("ldapEmailAttribute", "mail")
     set_ldap("useMemberOfToDetectMembership", "0")
 
-print("setup-ldap: configuration completed", file=sys.stderr)
+print(f"setup-ldap: {cdomain} configuration completed", file=sys.stderr)
