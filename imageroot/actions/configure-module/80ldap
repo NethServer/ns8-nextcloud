@@ -20,6 +20,8 @@
 # along with NethServer.  If not, see COPYING.
 #
 
-data=$(cat /dev/stdin)
+domain=$(cat /dev/stdin | jq -r '.domain')
 
-setup-ldap "$data"
+if [ "x$domain" != "x" ]; then
+    setup-ldap "$domain"
+fi
