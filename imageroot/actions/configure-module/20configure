@@ -50,7 +50,7 @@ agent.set_env("REDIS_HOST", "127.0.0.1")
 agent.set_env("REDIS_HOST_PORT", "6379")
 agent.set_env("MYSQL_ROOT_PASSWORD", "nextcloud")
 agent.set_env("OVERWRITEPROTOCOL", "https")
-agent.set_env("OVERWRITEHOST", data.get("domain", ""))
+agent.set_env("OVERWRITEHOST", data.get(host, ""))
 
 # Make sure everything is saved inside the environment file
 # just before starting systemd unit
