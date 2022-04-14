@@ -89,6 +89,7 @@ cat << EOF > config.php
   'mail_domain' => 'local',
   'mail_smtphost' => 'localhost',
   'mail_smtpport' => '25',
+  'log_type' => 'errorlog',
 );
 EOF
 
