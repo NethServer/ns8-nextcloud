@@ -3,6 +3,8 @@
 # Terminate on error
 set -e
 
+NC_VERSION=23
+
 # Prepare variables for later use
 images=()
 # The image will be pushed to GitHub container registry
@@ -30,13 +32,22 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@any:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/redis:6-alpine docker.io/mariadb:10.5 docker.io/nginx:1.21-alpine docker.io/nextcloud:23-fpm-alpine" \
+    --label="org.nethserver.images=docker.io/redis:6-alpine docker.io/mariadb:10.5 docker.io/nginx:1.21-alpine ghcr.io/nethserver/nextcloud-app:${IMAGETAG}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
 
 # Append the image URL to the images array
 images+=("${repobase}/${reponame}")
+
+# Build nextcloud-app image
+pushd nextcloud
+nc_image=${repobase}/nextcloud-app
+sed "s/_NC_VERSION_/${NC_VERSION}/" Dockerfile | buildah bud -f - -t ${nc_image}
+popd
+
+# Append the image URL to the images array
+images+=("${nc_image}")
 
 #
 # NOTICE:
