@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+domain=$(cat /dev/stdin | jq -r '.collabora_vhost')
+is_collabora=$(cat /dev/stdin | jq -r '.is_collabora')
+tls_verify=$(cat /dev/stdin | jq -r '.tls_verify')
+
+if $is_collabora && [[ $domain != "" ]]; then
+    occ app:install richdocuments
+    occ config:app:set richdocuments wopi_url --value=https://$domain
+    if $tls_verify; then
+        occ config:app:set richdocuments disable_certificate_verification --value=no
+    else
+        occ config:app:set richdocuments disable_certificate_verification --value=yes
+    fi
+    occ app:enable richdocuments
+fi
