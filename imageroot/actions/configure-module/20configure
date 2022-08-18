@@ -51,6 +51,8 @@ agent.set_env("REDIS_HOST_PORT", "6379")
 agent.set_env("MYSQL_ROOT_PASSWORD", "nextcloud")
 agent.set_env("OVERWRITEPROTOCOL", "https")
 agent.set_env("OVERWRITEHOST", data.get(host, ""))
+agent.set_env("COLLABORA_HOST", data.get("collabora_host", ""))
+agent.set_env("TLS_VERIFY_COLLABORA", data.get("tls_verify_collabora", True))
 
 # Make sure everything is saved inside the environment file
 # just before starting systemd unit
