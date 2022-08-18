@@ -7,7 +7,9 @@
     {
       "host": "nextcloud.myhost.local",
       "lets_encrypt": true,
-      "domain": "ad.myhost.local"
+      "domain": "ad.myhost.local",
+      "collabora_host":"collabora.nethserver.org",
+      "tls_verify_collabora": true
     }
   ],
   "type": "object",
@@ -31,6 +33,16 @@
       "description": "LDAP domain configured inside ldapproxy. If not present, or empty, Nextcloud will use internal database",
       "format": "idn-hostname",
       "type": "string"
+    },
+    "collabora_host": {
+      "description": "Host name for hostname, like 'collabora.nethserver.org'",
+      "format": "idn-hostname",
+      "type": "string"
+    },
+    "tls_verify_collabora": {
+      "type": "boolean",
+      "title": "Verify the certificate of collabora",
+      "description": "Request a valid certificate for collabora."
     }
   }
 }
