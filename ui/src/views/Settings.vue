@@ -93,7 +93,7 @@
                 :autoFilter="true"
                 :autoHighlight="true"
                 :title="$t('settings.collabora_host')"
-                :label="$t('settings.collabora_host')"
+                :label="$t('settings.collabora_placeholder')"
                 :options="collabora_URL"
                 :userInputLabel="core.$t('common.user_input_l')"
                 :acceptUserInput="true"

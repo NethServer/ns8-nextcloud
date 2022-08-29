@@ -36,7 +36,8 @@
     "configure_nextcloud": "Configure Nextcloud",
     "host_invalid_type": "Invalid host name",
     "collabora_host":"Host name of the collabora CODE Server",
-    "tls_verify_collabora":"Enable the certificate verification"
+    "tls_verify_collabora":"Enable the certificate verification",
+    "collabora_placeholder": "Type a fully qualified domain name or choose a prefilled one"
   },
   "about": {
     "title": "About"
