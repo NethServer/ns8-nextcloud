@@ -164,7 +164,7 @@ export default {
         getConfiguration: "",
         configureModule: "",
         listUserDomains: "",
-        collabora_host:"",
+        collabora_host: "",
       },
       style: {
         lowContrast: false,
@@ -181,7 +181,7 @@ export default {
           value: "",
         },
       ],
-      collabora_URL:[],
+      collabora_URL: [],
       installed: false,
       running: false,
       is_collabora: false,
@@ -344,7 +344,7 @@ export default {
             domain: this.domain,
             is_collabora: this.is_collabora,
             collabora_host: this.collabora_host,
-            tls_verify_collabora: this.tls_verify_collabora
+            tls_verify_collabora: this.tls_verify_collabora,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
