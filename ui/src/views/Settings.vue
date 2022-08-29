@@ -88,16 +88,21 @@
             >
             </cv-combo-box>
             <template v-if="is_collabora && installed">
-              <cv-text-input
-                :label="$t('settings.collabora_host')"
-                placeholder="collabora.example.com"
+              <NsComboBox
                 v-model.trim="collabora_host"
-                class="mg-bottom"
+                :autoFilter="true"
+                :autoHighlight="true"
+                :title="$t('settings.collabora_host')"
+                :label="$t('settings.collabora_host')"
+                :options="collabora_URL"
+                :userInputLabel="core.$t('common.user_input_l')"
+                :acceptUserInput="true"
+                :showItemType="true"
                 :invalid-message="$t(error.collabora_host)"
                 :disabled="loadingUi"
+                light
                 ref="host"
-              >
-              </cv-text-input>
+              />
               <cv-toggle
                 value="tls_verify_collabora"
                 :label="$t('settings.tls_verify_collabora')"
@@ -176,6 +181,7 @@ export default {
           value: "",
         },
       ],
+      collabora_URL:[],
       installed: false,
       running: false,
       is_collabora: false,
@@ -371,6 +377,7 @@ export default {
       this.is_collabora = config.is_collabora;
       this.tls_verify_collabora = config.tls_verify_collabora;
       this.collabora_host = config.collabora_host;
+      this.collabora_URL = config.array_collabora;
       this.loading.getConfiguration = false;
       if (this.host) {
         this.nextcloud_link = this.host;
