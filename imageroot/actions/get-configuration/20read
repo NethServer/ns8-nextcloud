@@ -65,6 +65,13 @@ except:
 # propose in UI to link this nextcloud to collabora
 rdb = agent.redis_connect(privileged=False)
 config["is_collabora"] = True if rdb.get('cluster/default_instance/collabora') else False
+# retrieve all url stored in redis for all collabora instances
+array_collabora = []
+for c in [c.replace('roles/module/', '') for c in  rdb.keys('roles/module/collabora*')]:
+    url = rdb.hget('module/'+c+'/environment', 'TRAEFIK_HOST')
+    if url:
+        array_collabora.append({"name": c, "label": c+' ('+ url+')', "value": url})
+config["array_collabora"] = array_collabora
 
 # Dump the configuratio to stdou
 json.dump(config, fp=sys.stdout)
