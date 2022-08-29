@@ -5,9 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-is_collabora=$(cat /dev/stdin | jq -r '.is_collabora')
-
-if  $is_collabora && [[ $COLLABORA_HOST != "" ]]; then
+if  [[ $COLLABORA_HOST != "" ]]; then
     occ app:install richdocuments
     occ config:app:set richdocuments wopi_url --value=https://$COLLABORA_HOST
     if [[ $TLS_VERIFY_COLLABORA == 'True' ]]; then
