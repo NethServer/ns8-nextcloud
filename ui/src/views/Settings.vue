@@ -100,9 +100,17 @@
                 :showItemType="true"
                 :invalid-message="$t(error.collabora_host)"
                 :disabled="loadingUi"
+                tooltipAlignment="start"
+                tooltipDirection="top"
                 light
                 ref="host"
-              />
+              >
+                <template slot="tooltip">
+                {{
+                  $t("settings.collabora_host_tooltip")
+                }}
+                </template>
+              </NsComboBox>
               <cv-toggle
                 value="tls_verify_collabora"
                 :label="$t('settings.tls_verify_collabora')"
