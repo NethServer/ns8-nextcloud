@@ -28,16 +28,17 @@
     "instance_configuration": "Configure {instance}",
     "configuring": "Configuration in progress...",
     "lets_encrypt": "Let's Encrypt certificate",
-    "domain": "LDAP/AD domain",
-    "no_domain": "No LDAP/AD domain",
+    "domain": "User domain",
+    "no_domain": "No user domain",
     "host_string_gte": "The host name can't be empty",
     "first_config_title": "Run first configuration wizard",
     "first_config_body": "Nextcloud is running but needs to be configured. Click <strong>Configure Nextcloud</strong> and complete the configuration. After, return to this page if you want to connect Nextcloud authentication to a domain.",
     "configure_nextcloud": "Configure Nextcloud",
     "host_invalid_type": "Invalid host name",
-    "collabora_host":"Host name of the collabora CODE Server",
-    "tls_verify_collabora":"Enable the certificate verification",
-    "collabora_placeholder": "Type a fully qualified domain name or choose a prefilled one"
+    "collabora_host":"CODE server host name",
+    "collabora_host_tooltip": "Type the host name of Collabora Online Development Edition server",
+    "tls_verify_collabora":"Verify TLS certificate",
+    "collabora_placeholder": "Type a fully qualified domain name or choose an option"
   },
   "about": {
     "title": "About"
