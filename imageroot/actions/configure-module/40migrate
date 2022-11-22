@@ -20,24 +20,29 @@
 # along with NethServer.  If not, see COPYING.
 #
 
+exec 1>&2
+
 # No migration required
 if [ ! -f config.php ]; then
     exit 0
 fi
 
-# Prepare database initialization
+# Prepare the script that stops the container
+# The .sh file is sourced by the Bash entrypoint script
+# because it is not an executable file:
 cat <<EOF > restore/zz_stop.sh
-#!/bin/sh
-
-killall mysqld
+docker_temp_server_stop # function defined by the entrypoint script
+exit 0 # exit the entrypoint immediately: do not start the real DB server
 EOF
-chmod a+x restore/zz_stop.sh
 
 # Execute database restore
 # The cointainer will be stopped at the end
-podman run --rm --replace --name nextcloud-db --env-file=$HOME/.config/state/environment -v nextcloud-db-data:/var/lib/mysql -v $HOME/.config/state/restore/:/docker-entrypoint-initdb.d/:z docker.io/mariadb:10.5
+podman run --rm --replace --name=restore_db \
+  --env-file=./environment \
+  --volume=nextcloud-db-data:/var/lib/mysql \
+  --volume=./restore:/docker-entrypoint-initdb.d:z \
+  docker.io/mariadb:10.5
 
-# Cleanup database data
 rm -f restore/zz_stop.sh restore/dump.sql
 
 # Start services
