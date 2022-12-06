@@ -43,6 +43,7 @@ podman run --rm --replace --name=restore_db \
   --volume=./restore:/docker-entrypoint-initdb.d:z \
   docker.io/mariadb:10.5
 
+# Cleanup database data
 rm -f restore/zz_stop.sh restore/dump.sql
 
 # Start services
