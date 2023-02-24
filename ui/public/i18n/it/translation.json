@@ -12,7 +12,8 @@
         "403": "Operazione non autorizzata"
     },
     "common": {
-        "required": "Obbligatorio"
+        "required": "Obbligatorio",
+        "work_in_progress": "In lavorazione"
     },
     "status": {
         "title": "Stato",
@@ -26,14 +27,19 @@
         "no_volumes": "Nessun volume",
         "app_instance": "Istanza app",
         "app_images": "Immagine app|Immagini app",
-        "app_volumes": "Volume app|Volumi app"
+        "app_volumes": "Volume app|Volumi app",
+        "installation_node": "Nodo",
+        "mount": "Percorso di mount"
     },
     "settings": {
         "save": "Salva",
         "title": "Impostazioni"
     },
     "action": {
-        "configure-module": "Configura modulo"
+        "configure-module": "Configura modulo",
+        "get-configuration": "Visualizza configurazione",
+        "get-module-info": "Visualizza info modulo",
+        "get-status": "Visualizza stato"
     },
     "about": {
         "title": "Informazioni"
