@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 #
 # Copyright (C) 2022 Nethesis S.r.l.
@@ -62,6 +62,8 @@ do
     eval $var=$val
 done
 
+host=$(cat config.json | jq -r .host)
+
 # Generate a migrated config file
 cat << EOF > config.php
 <?php
@@ -109,7 +111,7 @@ cat << EOF > config.php
   'trusted_domains' => 
   array (
     0 => 'localhost',
-    1 => '$TRAEFIK_HOST',
+    1 => '$host',
   ),
   'mail_smtpmode' => 'smtp',
   'mail_smtpsecure' => '',

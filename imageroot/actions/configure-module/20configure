@@ -32,32 +32,28 @@ import agent
 data = json.load(sys.stdin)
 
 # Setup default values
-host = data.get("host")
-
-# Talk with agent using file descriptor.
-# Setup configuration from user input.
-agent.set_env("NEXTCLOUD_TRUSTED_DOMAINS", host)
-agent.set_env("NEXTCLOUD_DOMAIN", data.get("domain", ""))
+host = data.get("host", '')
 
 # Setup environment for nextcloud app: DB, Redis and PHP
-agent.set_env("PHP_ENABLE_OPCACHE", "1")
-agent.set_env("PHP_MEMORY_LIMIT", "1024M")
-agent.set_env("MYSQL_DATABASE", "nextcloud")
-agent.set_env("MYSQL_HOST", "127.0.0.1")
-agent.set_env("MYSQL_USER", "nextcloud")
-agent.set_env("MYSQL_PASSWORD", "nextcloud")
-agent.set_env("REDIS_HOST", "127.0.0.1")
-agent.set_env("REDIS_HOST_PORT", "6379")
-agent.set_env("MYSQL_ROOT_PASSWORD", "nextcloud")
-agent.set_env("OVERWRITEPROTOCOL", "https")
-agent.set_env("OVERWRITEHOST", data.get(host, ""))
-agent.set_env("COLLABORA_HOST", data.get("collabora_host", ""))
-agent.set_env("TLS_VERIFY_COLLABORA", data.get("tls_verify_collabora", True))
+config = {
+   "PHP_ENABLE_OPCACHE": "1",
+   "PHP_MEMORY_LIMIT": "1024M",
+   "MYSQL_DATABASE": "nextcloud",
+   "MYSQL_HOST": "127.0.0.1",
+   "MYSQL_USER": "nextcloud",
+   "MYSQL_PASSWORD": "nextcloud",
+   "MYSQL_ROOT_PASSWORD": "nextcloud",
+   "REDIS_HOST": "127.0.0.1",
+   "REDIS_HOST_PORT": "6379",
+   "OVERWRITEPROTOCOL": "https",
+   "NEXTCLOUD_TRUSTED_DOMAINS": host,
+   "NEXTCLOUD_DOMAIN": data.get('domain', ''),
+   "OVERWRITEHOST": host,
+   "COLLABORA_HOST": data.get('collabora_host', ''),
+   "TLS_VERIFY_COLLABORA": f"{data.get('tls_verify_collabora', True)}" # agent.write_envfile does not support boolean
+}
+agent.write_envfile('config.env', config)
 
-# Make sure everything is saved inside the environment file
-# just before starting systemd unit
-agent.dump_env()
-
-# Save configuration to JSON for later user and backup
+# For later use and backup
 with open('config.json', 'w') as config:
     config.write(json.dumps(data))

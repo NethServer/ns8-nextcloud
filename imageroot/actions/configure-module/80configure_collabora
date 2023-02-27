@@ -5,13 +5,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-if  [[ $COLLABORA_HOST != "" ]]; then
+collabora_host=$(cat config.json | jq -r '.collabora_host // empty')
+tls_verify=$(cat config.json | jq -r '.tls_verify_collabora // empty')
+
+if  [[ "$collabora_host" != "" ]]; then
     occ app:install richdocuments
     occ config:app:set richdocuments wopi_url --value=https://$COLLABORA_HOST
-    if [[ $TLS_VERIFY_COLLABORA == 'True' ]]; then
-        occ config:app:set richdocuments disable_certificate_verification --value=no
-    else
+    if [[ "$tls_verify" == 'True' ]]; then
         occ config:app:set richdocuments disable_certificate_verification --value=yes
+    else
+        occ config:app:set richdocuments disable_certificate_verification --value=no
     fi
     occ app:enable richdocuments
 fi
