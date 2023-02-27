@@ -9,7 +9,8 @@
       "lets_encrypt": true,
       "domain": "ad.myhost.local",
       "collabora_host":"collabora.nethserver.org",
-      "tls_verify_collabora": true
+      "tls_verify_collabora": true,
+      "password": "Nethesis,1234"
     }
   ],
   "type": "object",
@@ -43,6 +44,11 @@
       "type": "boolean",
       "title": "Verify the certificate of collabora",
       "description": "Request a valid certificate for collabora."
+    },
+    "password": {
+      "description": "Password for admin user. Default is 'Nethesis,1234'",
+      "type": "string",
+      "minLenght": "2"
     }
   }
 }
