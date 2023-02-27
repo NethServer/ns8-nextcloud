@@ -34,12 +34,8 @@ import subprocess
 # Prepare return variable
 config = {}
 
-# Read current configuration from the environment file
-config["domain"] = os.getenv("NEXTCLOUD_DOMAIN")
-config["host"] = os.getenv("TRAEFIK_HOST")
-config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
-config["collabora_host"] = os.getenv("COLLABORA_HOST", "")
-config["tls_verify_collabora"] = os.getenv("TLS_VERIFY_COLLABORA") ==  "True"
+with open('config.json', 'r') as cf:
+    config = json.loads(cf.read())
 
 try:
     config['default_domain'] = socket.getfqdn().partition('.')[2]
