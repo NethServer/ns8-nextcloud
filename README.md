@@ -34,7 +34,8 @@ api-cli run configure-module --agent module/nextcloud1 --data - <<EOF
 {
     "host": "nextcloud.nethserver.org",
     "lets_encrypt": true,
-    "domain": "ad.nethserver.org"
+    "domain": "ad.nethserver.org",
+    "password": "Nethesis,1234"
 }
 EOF
 ```
