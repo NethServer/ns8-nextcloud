@@ -23,7 +23,7 @@
 import os
 import sys
 import json
-import agent
+import agent.tasks
 
 config = {}
 
@@ -31,18 +31,4 @@ config = {}
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
 
-agent.set_env("NEXTCLOUD_TRUSTED_DOMAINS", config["host"])
-agent.set_env("NEXTCLOUD_DOMAIN", config.get("domain", ""))
-
-# Setup environment for nextcloud app: DB, Redis and PHP
-agent.set_env("PHP_ENABLE_OPCACHE", "1")
-agent.set_env("PHP_MEMORY_LIMIT", "1024M")
-agent.set_env("MYSQL_DATABASE", "nextcloud")
-agent.set_env("MYSQL_HOST", "127.0.0.1")
-agent.set_env("MYSQL_USER", "nextcloud")
-agent.set_env("MYSQL_PASSWORD", "nextcloud")
-agent.set_env("REDIS_HOST", "127.0.0.1")
-agent.set_env("REDIS_HOST_PORT", "6379")
-agent.set_env("MYSQL_ROOT_PASSWORD", "nextcloud")
-agent.set_env("OVERWRITEPROTOCOL", "https")
-agent.set_env("OVERWRITEHOST", config.get("domain", ""))
+agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data=config)
