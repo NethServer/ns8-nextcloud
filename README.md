@@ -45,6 +45,9 @@ ssh nextcloud1@localhost
 runagent occ <args>
 ```
 
+You can customize FPM configuration by changing the file named `zzz_nethserver.conf` inside the state directory.
+Example: `/home/nextcloud1/.config/state/zzz_nethserver.conf`.
+
 ## Uninstall
 
 To uninstall the instance:

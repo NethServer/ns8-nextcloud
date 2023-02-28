@@ -202,3 +202,11 @@ http {
     }
 }
 EOF
+
+cat >zzz_nethserver.conf <<'EOF'
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+EOF
