@@ -59,7 +59,7 @@ lp = Ldapproxy()
 domain = lp.get_domain(cdomain)
 if not domain:
     print(f'Domain not found: {cdomain}', file=sys.stderr)
-    sys.exit(1)
+    sys.exit(0)
 
 max_tries = 60
 i = 0
