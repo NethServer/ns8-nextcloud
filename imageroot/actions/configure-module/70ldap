@@ -20,7 +20,7 @@
 # along with NethServer.  If not, see COPYING.
 #
 
-domain=$(cat config.json | jq -r '.domain')
+domain=$(cat config.json | jq -r '.domain // empty')
 
 if [ "x$domain" != "x" ]; then
     setup-ldap "$domain"

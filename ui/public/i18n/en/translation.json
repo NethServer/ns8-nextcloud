@@ -42,7 +42,8 @@
     "collabora_host":"CODE server host name",
     "collabora_host_tooltip": "Type the host name of Collabora Online Development Edition server",
     "tls_verify_collabora":"Verify TLS certificate",
-    "collabora_placeholder": "Type a fully qualified domain name or choose an option"
+    "collabora_placeholder": "Type a fully qualified domain name or choose an option",
+    "admin_password": "Password for user 'admin'"
   },
   "about": {
     "title": "About"
@@ -67,6 +68,7 @@
     "404": "Resource not found",
     "cannot_retrieve_module_info": "Cannot retrieve module info",
     "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
-    "cannot_retrieve_configuration": "Cannot retrieve configuration"
+    "cannot_retrieve_configuration": "Cannot retrieve configuration",
+    "password_invalid_chars": "The password may not contain spaces nor the following characters: ' \" ="
   }
 }

@@ -31,11 +31,12 @@ import agent
 import socket
 import subprocess
 
-# Prepare return variable
-config = {}
+try:
+    with open('config.json', 'r') as cf:
+        config = json.loads(cf.read())
+except:
+    config = {"lets_encrypt": False}
 
-with open('config.json', 'r') as cf:
-    config = json.loads(cf.read())
 
 try:
     config['default_domain'] = socket.getfqdn().partition('.')[2]

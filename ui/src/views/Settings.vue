@@ -15,26 +15,6 @@
         />
       </div>
     </div>
-    <div
-      v-if="
-        !loading.getConfiguration &&
-        !loading.configureModule &&
-        running &&
-        !installed
-      "
-      class="bx--row"
-    >
-      <div class="bx--col-lg-16">
-        <NsInlineNotification
-          :title="$t('settings.first_config_title')"
-          :description="$t('settings.first_config_body')"
-          :low-contrast="style.lowContrast"
-          :hide-close-button="style.hideClose"
-          :actionLabel="$t('settings.configure_nextcloud')"
-          @action="goToNextcloudWizard"
-        />
-      </div>
-    </div>
     <div class="bx--row">
       <div class="bx--col-lg-16">
         <cv-tile :light="true">
@@ -54,9 +34,19 @@
               :placeholder="default_host"
               v-model.trim="host"
               class="mg-bottom"
-              :invalid-message="$t(error.host)"
+              :invalid-message="error.host"
               :disabled="loadingUi"
               ref="host"
+            >
+            </cv-text-input>
+            <cv-text-input
+              :label="$t('settings.admin_password')"
+              v-model.trim="password"
+              v-if="!installed"
+              class="mg-bottom"
+              :invalid-message="error.password"
+              :disabled="loadingUi"
+              ref="password"
             >
             </cv-text-input>
             <cv-toggle
@@ -74,7 +64,6 @@
               }}</template>
             </cv-toggle>
             <cv-combo-box
-              v-if="installed"
               v-model="domain"
               :options="domains"
               auto-highlight
@@ -172,6 +161,8 @@ export default {
         configureModule: "",
         listUserDomains: "",
         collabora_host: "",
+        password: "",
+        host: ""
       },
       style: {
         lowContrast: false,
@@ -181,10 +172,11 @@ export default {
       default_host: "",
       isLetsEncryptEnabled: false,
       domain: "",
+      password: "Nethesis,1234",
       domains: [
         {
           name: "nodomain",
-          label: this.$t("settings.no_domain"),
+          label: "-",
           value: "",
         },
       ],
@@ -193,7 +185,6 @@ export default {
       running: false,
       is_collabora: false,
       tls_verify_collabora: true,
-      nextcloud_link: "",
     };
   },
   computed: {
@@ -306,6 +297,19 @@ export default {
     validateSaveSettings() {
       this.clearErrors(this);
       let isValidationOk = true;
+      if (!this.host) {
+        // test field cannot be empty
+        this.error.host = this.$t("common.required");
+        this.focusElement("host");
+        isValidationOk = false;
+      }
+      // exclude characters not correctly supported by env file
+      const re = new RegExp("\"|=|'|\\s|\\t");
+      if (re.test(this.password)) {
+        this.error.password = this.$t("error.password_invalid_chars");
+        this.focusElement("password");
+        isValidationOk = false;
+      }
       return isValidationOk;
     },
     saveSettingsValidationFailed(validationErrors) {
@@ -352,6 +356,7 @@ export default {
             is_collabora: this.is_collabora,
             collabora_host: this.collabora_host,
             tls_verify_collabora: this.tls_verify_collabora,
+            password: this.password
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
@@ -386,9 +391,7 @@ export default {
       this.collabora_host = config.collabora_host;
       this.collabora_URL = config.array_collabora;
       this.loading.getConfiguration = false;
-      if (this.host) {
-        this.nextcloud_link = this.host;
-      }
+      this.domain = config.domain;
       this.focusElement("host");
     },
     listUserDomainsCompleted(taskContext, taskResult) {
@@ -408,10 +411,7 @@ export default {
       this.loading.configureModule = false;
       // reload configuration
       this.getConfiguration();
-    },
-    goToNextcloudWizard() {
-      window.open(`https://${this.nextcloud_link}`, "_blank");
-    },
+    }
   },
 };
 </script>
