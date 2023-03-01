@@ -34,7 +34,7 @@ data = json.load(sys.stdin)
 # Setup default values
 host = data.get("host", '')
 
-# Setup environment for nextcloud app: DB, Redis and PHP
+# Setup environment for nextcloud app, Redis and PHP
 config = {
    "PHP_ENABLE_OPCACHE": "1",
    "PHP_MEMORY_LIMIT": "1024M",
@@ -42,7 +42,6 @@ config = {
    "MYSQL_HOST": "127.0.0.1",
    "MYSQL_USER": "nextcloud",
    "MYSQL_PASSWORD": "nextcloud",
-   "MYSQL_ROOT_PASSWORD": "nextcloud",
    "REDIS_HOST": "127.0.0.1",
    "REDIS_HOST_PORT": "6379",
    "OVERWRITEPROTOCOL": "https",
@@ -55,6 +54,18 @@ config = {
    "TLS_VERIFY_COLLABORA": f"{data.get('tls_verify_collabora', True)}" # agent.write_envfile does not support boolean
 }
 agent.write_envfile('config.env', config)
+
+# Setup environment for DB
+db_config = {
+    "MARIADB_ROOT_PASSWORD": "nextcloud",
+    "MARIADB_ROOT_HOST": "localhost",
+    "MARIADB_DATABASE": "nextcloud",
+    "MARIADB_USER": "nextcloud",
+    "MARIADB_PASSWORD": "nextcloud",
+    "MARIADB_AUTO_UPGRADE": "true"
+}
+agent.write_envfile('database.env', db_config)
+
 
 # For later use and backup
 with open('config.json', 'w') as config:
