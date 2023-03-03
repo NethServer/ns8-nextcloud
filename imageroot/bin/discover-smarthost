@@ -20,6 +20,9 @@ envfile = "smarthost.env"
 # Using .tmp suffix: do not overwrite the target file until the new one is
 # saved to disk:
 if not smtp_settings['host']:
+    f = open(envfile, "w")
+    f.write("")
+    f.close
     sys.exit(0)
 
 with open('config.json', 'r') as cf:
