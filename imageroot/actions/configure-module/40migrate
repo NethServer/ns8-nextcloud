@@ -39,9 +39,10 @@ EOF
 # The cointainer will be stopped at the end
 podman run --rm --replace --name=restore_db \
   --env-file=./environment \
+  --env-file=./database.env \
   --volume=nextcloud-db-data:/var/lib/mysql \
   --volume=./restore:/docker-entrypoint-initdb.d:z \
-  docker.io/mariadb:10.5
+  ${MARIADB_IMAGE}
 
 # Cleanup database data
 rm -f restore/zz_stop.sh restore/dump.sql
