@@ -3,7 +3,7 @@
 # Terminate on error
 set -e
 
-NC_VERSION=27.1.2
+NC_VERSION=27.1.3
 
 # Prepare variables for later use
 images=()
