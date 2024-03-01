@@ -52,9 +52,15 @@
         "tls_verify_collabora": "Verifica certificato TLS",
         "configuring": "Configurazione in corso...",
         "host_string_gte": "Il nome host non può essere vuoto",
-        "collabora_host_tooltip": "Inserire il nome host del server Collabora Online Development Edition",
+        "collabora_host_tooltip": "Collabora Online Development Edition (CODE) è un server LibreOffice Online self-hostable. Permette di modificare i documenti di Office in un browser Web.",
         "admin_password": "Password per l'utente 'admin'",
-        "collabora_placeholder": "Inserire un nome dominio completo oppure selezionare un'opzione"
+        "collabora_placeholder": "Selezionare un server collabora o lasciare vuoto per disabilitarlo.",
+        "host_pattern": "Deve essere un nome di dominio pienamente qualificato valido",
+        "host_format": "Deve essere un nome di dominio pienamente qualificato valido",
+        "host_placeholder": "E.g. mynextcloud.example.org",
+        "choose_ldap_domain": "Selezionare un utente di dominio",
+        "no_user_domain": "Database utenti interno di Nextcloud",
+        "admin_password_tooltip": "L'utente 'admin' è l'amministratore interno di Nextcloud. Questa password viene utilizzata per autenticare 'admin' utente nell'interfaccia web di Nextcloud."
     },
     "action": {
         "configure-module": "Configura modulo",
