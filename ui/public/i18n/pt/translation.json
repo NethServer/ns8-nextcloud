@@ -17,7 +17,8 @@
         "node": "Node",
         "no_volumes": "No volumes",
         "size": "Size",
-        "name": "Name"
+        "name": "Name",
+        "not_configured": "Not configured"
     },
     "settings": {
         "disabled": "Disabled",
