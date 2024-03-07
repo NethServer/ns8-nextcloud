@@ -13,7 +13,8 @@
         "node": "Node",
         "services": "Service | Services",
         "app_instance": "App instance",
-        "title": "Status"
+        "title": "Status",
+        "not_configured": "Not configured"
     },
     "settings": {
         "save": "Save",
