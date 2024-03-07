@@ -17,7 +17,8 @@
         "name": "Name",
         "no_images": "No images",
         "app_volumes": "App volume | App volumes",
-        "node": "Node"
+        "node": "Node",
+        "not_configured": "Not configured"
     },
     "settings": {
         "save": "Save",
