@@ -26,8 +26,8 @@
     "settings": {
         "title": "Einstellungen",
         "host": "Hostname",
-        "disabled": "Deaktiviert",
-        "enabled": "Aktiviert",
+        "disabled": "Disabled",
+        "enabled": "Enabled",
         "collabora_placeholder": "Collabora-Server auswählen, leer lassen zum deaktivieren",
         "host_placeholder": "z.B.: mynextcloud.example.org",
         "save": "Speichern",
