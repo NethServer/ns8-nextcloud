@@ -24,7 +24,10 @@
         "disabled": "Disabled",
         "save": "Save",
         "enabled": "Enabled",
-        "title": "Settings"
+        "title": "Settings",
+        "instance_configuration": "Configure {instance}",
+        "host_format": "Must be a valid fully qualified domain name",
+        "host_pattern": "Must be a valid fully qualified domain name"
     },
     "error": {
         "401": "Invalid authentication",
