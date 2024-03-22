@@ -21,13 +21,13 @@
         "created": "Erstellt",
         "mount": "Einhängepunkt",
         "no_images": "Keine Abbilder",
-        "configure": "konfigurieren"
+        "configure": "Konfigurieren"
     },
     "settings": {
         "title": "Einstellungen",
         "host": "Hostname",
-        "disabled": "Disabled",
-        "enabled": "Enabled",
+        "disabled": "Deaktiviert",
+        "enabled": "Aktiviert",
         "collabora_placeholder": "Collabora-Server auswählen, leer lassen zum deaktivieren",
         "host_placeholder": "z.B.: mynextcloud.example.org",
         "save": "Speichern",
