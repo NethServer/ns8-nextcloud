@@ -6,5 +6,5 @@ $CONFIG = array(
    'updatechecker' => false,
    'check_for_working_wellknown_setup' => false,
    'log_type' => 'errorlog',
-   'updater.server.url' => 'http://127.0.0.1/',
+   'updater.server.url' => '127.0.0.1',
 );
