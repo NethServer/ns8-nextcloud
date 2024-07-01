@@ -10,7 +10,7 @@
         "generic_error": "Qualcosa è andato storto",
         "401": "Autenticazione non valida",
         "403": "Operazione non autorizzata",
-        "cannot_retrieve_configuration": "Impossibile caricare la configurazione",
+        "cannot_retrieve_configuration": "Cannot retrieve configuration",
         "password_invalid_chars": "La password non può contenere spazi ne i seguenti caratteri: ' \" ="
     },
     "common": {
@@ -32,8 +32,8 @@
         "app_volumes": "Volume app|Volumi app",
         "installation_node": "Nodo di installazione",
         "mount": "Percorso di mount",
-        "not_configured": "Non configurato",
-        "configure": "Configura",
+        "not_configured": "Not configured",
+        "configure": "Configure",
         "open_nextcloud_webapp": "Apri Nextcloud",
         "nextcloud_webapp": "Nextcloud webapp"
     },

@@ -2,22 +2,22 @@
     "error": {
         "403": "Operación no autorizada",
         "cannot_retrieve_installed_modules": "No se pueden recuperar los módulos instalados",
-        "401": "Autentificación no válida",
+        "401": "Autentificación inválida",
         "cannot_retrieve_module_info": "No se puede recuperar la información del módulo",
-        "generic_error": "Algo salió mal",
+        "generic_error": "Algo ha salido mal",
         "cannot_retrieve_configuration": "No se puede recuperar la configuración",
         "error": "Error",
-        "network_timeout": "Tiempo de espera de red agotado",
+        "network_timeout": "Tiempo de espera de la red agotado",
         "password_invalid_chars": "La contraseña no puede contener espacios ni los siguientes caracteres: ' \" =",
         "404": "Recurso no encontrado",
-        "network_error": "Fallo de red",
-        "validation_error": "Fallo en la validación"
+        "network_error": "Error en la red",
+        "validation_error": "Error en la validación"
     },
     "settings": {
         "collabora_host_tooltip": "Collabora Online Development Edition (CODE) es un servidor LibreOffice Online autohospedable. Te permite editar documentos de Office en un navegador web.",
         "configuring": "Configuración en curso...",
         "host": "Nombre del host",
-        "disabled": "Deshabilitado",
+        "disabled": "Desactivado",
         "instance_configuration": "Configurar {instance}",
         "host_string_gte": "El nombre de host no puede estar vacío",
         "configure_nextcloud": "Configurar Nextcloud",
@@ -27,7 +27,7 @@
         "host_invalid_type": "Nombre de host no válido",
         "save": "Guardar",
         "tls_verify_collabora": "Verificar certificado TLS",
-        "enabled": "Habilitado",
+        "enabled": "Activado",
         "collabora_host": "Nombre de host servidor CODE",
         "domain": "Dominio de usuario",
         "title": "Ajustes",
@@ -44,9 +44,9 @@
         "size": "Tamaño",
         "name": "Nombre",
         "no_images": "Sin imágenes",
-        "app_volumes": "Volumen de aplicación | Volúmenes de aplicación",
+        "app_volumes": "Volumen de la aplicación| Volumen de las aplicaciones",
         "services": "Servicio | Servicios",
-        "app_images": "Imagen de la aplicación | Imágenes de la aplicación",
+        "app_images": "Imagen de la aplicación| Imágenes de las aplicaciones",
         "open_nextcloud_webapp": "Abrir Nextcloud",
         "no_services": "Sin servicios",
         "configure": "Configurar",
@@ -54,13 +54,13 @@
         "mount": "Montar",
         "title": "Estado",
         "not_configured": "No configurado",
-        "installation_node": "Nodo de instalación",
+        "installation_node": "Nodo de la instalación",
         "node": "Nodo",
-        "no_volumes": "Sin volúmenes"
+        "no_volumes": "Sin volumenes"
     },
     "common": {
         "required": "Obligatorio",
-        "work_in_progress": "Trabajo en curso"
+        "work_in_progress": "Trabajando"
     },
     "about": {
         "title": "Acerca de"
@@ -69,7 +69,7 @@
         "get-module-info": "Obtener información del módulo",
         "get-status": "Obtener el estado",
         "configure-module": "Configurar el módulo",
-        "get-configuration": "Obtener la configuración"
+        "get-configuration": "Obtener los ajustes"
     },
     "task": {
         "cannot_create_task": "No se puede crear la tarea {action}"
