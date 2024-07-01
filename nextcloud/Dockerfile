@@ -1,4 +1,4 @@
-FROM docker.io/library/nextcloud:_NC_VERSION_-fpm-alpine
+FROM php:8.2-fpm-alpine3.20
 
 RUN set -ex; \
     \
