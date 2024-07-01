@@ -22,7 +22,10 @@ RUN set -ex; \
         bzip2-dev \
     ; \
     \
+        ls -laR /usr/src/; \
+
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
+    ls -la /usr/src/php/; \
     docker-php-ext-install \
         bz2 \
         imap \
