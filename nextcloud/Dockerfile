@@ -1,4 +1,4 @@
-FROM docker.io/library/nextcloud:_NC_VERSION_-fpm-alpine
+FROM php:8.2-fpm-alpine3.20
 
 RUN set -ex; \
     \
@@ -22,21 +22,26 @@ RUN set -ex; \
         bzip2-dev \
     ; \
     \
-    docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
-    docker-php-ext-install \
-        bz2 \
-        imap \
-    ; \
-    pecl install smbclient; \
-    docker-php-ext-enable smbclient; \
-    \
-    runDeps="$( \
-        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-            | tr ',' '\n' \
-            | sort -u \
-            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    )"; \
-    apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
+        ls -laR /usr/src/; whoami; echo $PHPIZE_DEPS;\
+        dir=/usr/src/php ; \
+        mkdir -p "$dir"; \
+tar -Jxf /usr/src/php.tar.xz -C "$dir" --strip-components=1 ; \
+    # docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
+    ls -la /usr/src/php/; \
+    # docker-php-ext-install \
+    #     bz2 \
+    #     imap \
+    # ; \
+    # pecl install smbclient; \
+    # docker-php-ext-enable smbclient; \
+    # \
+    # runDeps="$( \
+    #     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+    #         | tr ',' '\n' \
+    #         | sort -u \
+    #         | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    # )"; \
+    # apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
     apk del .build-deps
 
 RUN mkdir -p \
