@@ -29,6 +29,7 @@ RUN set -ex; \
         
 old_umask=$(umask) \
 umask 777 \
+$(umask); whoami; ls -ld "$dir"; lsattr "$dir"  ; \ 
 # tar -Jxf /usr/src/php.tar.xz -C "$dir" --strip-components=1 ; \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
     ls -la /usr/src/php/; \
