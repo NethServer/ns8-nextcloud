@@ -22,16 +22,6 @@ RUN set -ex; \
         bzip2-dev \
     ; \
     \
-        # ls -laR /usr/src/; whoami; echo $PHPIZE_DEPS;\
-        # dir=/usr/src/php ; \
-        # mkdir -p "$dir"; \
-        # do not change permission for /usr/src/php, it will cause error \
-        
-# old_umask=$(umask) \
-# umask 777 \
-$(umask); whoami; ls -ldR "$dir"; lsattr "$dir"  ; \ 
-# curl -fsSL -o /usr/src/php.tar2.xz "https://www.php.net/distributions/php-8.2.0.tar.xz"; \
-#  tar -Jxf /usr/src/php.tar2.xz -C "$dir" --strip-components=1 ; \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
     ls -laR /usr/src/php/; \
     docker-php-ext-install \
