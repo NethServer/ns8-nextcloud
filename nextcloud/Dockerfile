@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine3.20
+FROM php:8.2-fpm-alpine3.19
 
 RUN set -ex; \
     \
@@ -30,7 +30,8 @@ RUN set -ex; \
 old_umask=$(umask) \
 umask 777 \
 $(umask); whoami; ls -ld "$dir"; lsattr "$dir"  ; \ 
-# tar -Jxf /usr/src/php.tar.xz -C "$dir" --strip-components=1 ; \
+# curl -fsSL -o /usr/src/php.tar2.xz "https://www.php.net/distributions/php-8.2.0.tar.xz"; \
+#  tar -Jxf /usr/src/php.tar2.xz -C "$dir" --strip-components=1 ; \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
     ls -la /usr/src/php/; \
     docker-php-ext-install \
