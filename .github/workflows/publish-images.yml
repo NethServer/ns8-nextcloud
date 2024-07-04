@@ -22,8 +22,7 @@ jobs:
       IMAGETAG: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          lfs: true
+      - uses: docker-library/bashbrew@HEAD
       - uses: actions/cache@v3
         with:
           path: ui/node_modules
