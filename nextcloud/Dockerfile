@@ -28,7 +28,7 @@ RUN set -ex; \
         # do not change permission for /usr/src/php, it will cause error \
         
 old_umask=$(umask) \
-umask 0022 \
+umask 777 \
 # tar -Jxf /usr/src/php.tar.xz -C "$dir" --strip-components=1 ; \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
     ls -la /usr/src/php/; \
