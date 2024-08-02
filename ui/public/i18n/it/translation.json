@@ -32,7 +32,7 @@
         "app_volumes": "Volume app|Volumi app",
         "installation_node": "Nodo di installazione",
         "mount": "Percorso di mount",
-        "not_configured": "Not configured",
+        "not_configured": "Non configurato",
         "configure": "Configure",
         "open_nextcloud_webapp": "Apri Nextcloud",
         "nextcloud_webapp": "Nextcloud webapp"
