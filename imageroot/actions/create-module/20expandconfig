@@ -220,6 +220,16 @@ http {
         location / {
             try_files $uri $uri/ /index.php$request_uri;
         }
+        # reverse proxy stuff
+        location / {
+            add_header       X-Served-By $host;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-Scheme $scheme;
+            proxy_set_header X-Forwarded-Proto  $scheme;
+            proxy_set_header X-Forwarded-For    $remote_addr;
+            proxy_set_header X-Real-IP          $remote_addr;
+            proxy_pass       $forward_scheme://$server:$port$request_uri;
+        }
     }
 }
 EOF
