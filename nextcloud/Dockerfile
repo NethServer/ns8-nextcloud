@@ -44,6 +44,8 @@ RUN mkdir -p \
     /var/run/supervisord \
 ;
 
+RUN   ln -sf /dev/stderr /var/www/html/nextcloud.log
+
 COPY supervisord.conf /
 COPY ns.config.php /usr/src/nextcloud/config/
 
