@@ -45,7 +45,10 @@ RUN mkdir -p \
 ;
 # we want to remove the php notice in error reporting in log, sed is doing weird things
 RUN sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/#error_reporting_added_at_the_end_of_file/' /usr/local/etc/php/php.ini-production && \
-    echo 'error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE' >> /usr/local/etc/php/php.ini-production
+    echo 'error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE' >> /usr/local/etc/php/php.ini-production && \
+    sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/#error_reporting_added_at_the_end_of_file/' /usr/local/etc/php/php.ini-development && \
+    echo 'error_reporting = E_ALL & ~E_NOTICE' >> /usr/local/etc/php/php.ini-development
+    
 
 COPY supervisord.conf /
 COPY ns.config.php /usr/src/nextcloud/config/
