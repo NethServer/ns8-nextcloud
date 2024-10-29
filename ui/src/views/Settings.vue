@@ -50,9 +50,7 @@
               ref="password"
             >
               <template slot="tooltip">
-                <span
-                  v-html="$t('settings.admin_password_tooltip')"
-                ></span>
+                <span>{{ $t("settings.admin_password_tooltip") }}</span>
               </template>
             </NsTextInput>
             <cv-toggle
