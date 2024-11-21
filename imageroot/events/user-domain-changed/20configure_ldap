@@ -12,7 +12,10 @@ import os
 
 event = json.load(sys.stdin)
 
-if event.get('domain') != os.getenv('NEXTCLOUD_DOMAIN'):
+config = agent.read_envfile("config.env")
+nextcloud_domain = config.get('NEXTCLOUD_DOMAIN', '')
+
+if event.get('domain') != nextcloud_domain:
     exit(0)
 
 if 'node_id' in event and str(event['node_id']) != os.getenv('NODE_ID'):
