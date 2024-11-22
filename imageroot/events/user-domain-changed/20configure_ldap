@@ -18,4 +18,4 @@ nextcloud_domain = config.get('NEXTCLOUD_DOMAIN', '')
 if event.get('domain') != nextcloud_domain:
     exit(0)
 
-agent.run_helper('systemctl', '--user', '-T', 'try-reload-or-restart', 'nextcloud.service').check_returncode()
+agent.run_helper('systemctl', '--user', '-T', 'try-restart', 'nextcloud.service').check_returncode()
