@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2024 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import os
+
+event = json.load(sys.stdin)
+
+config = agent.read_envfile("config.env")
+nextcloud_domain = config.get('NEXTCLOUD_DOMAIN', '')
+
+if event.get('domain') != nextcloud_domain:
+    exit(0)
+
+if 'node_id' in event and str(event['node_id']) != os.getenv('NODE_ID'):
+    exit(0) # ignore event if the source is not in our node
+
+agent.run_helper('systemctl', '--user', '-T', 'try-reload-or-restart', 'nextcloud.service').check_returncode()
