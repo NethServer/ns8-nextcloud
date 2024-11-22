@@ -13,6 +13,7 @@ ExecStartPre=/bin/rm -f %t/nextcloud-app.pid %t/nextcloud-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStartPost=runagent wait-startup
 ExecStartPost=runagent setup-smtp
+ExecStartPost=runagent setup-ldap
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/nextcloud-app.pid --cidfile %t/nextcloud-app.ctr-id --cgroups=no-conmon --pod-id-file %t/nextcloud.pod-id --replace -d --name nextcloud-app --env-file=%S/state/config.env --env-file=%S/state/smarthost.env -v nextcloud-app-data:/var/www/html -v %S/state/zzz_nethserver.conf:/usr/local/etc/php-fpm.d/zzz_nethserver.conf:z ${NEXTCLOUD_APP_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/nextcloud-app.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/nextcloud-app.ctr-id
