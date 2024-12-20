@@ -1,0 +1,77 @@
+{
+    "status": {
+        "app_volumes": "App volume | App volumes",
+        "services": "Service | Services",
+        "app_images": "App image | App images",
+        "installation_node": "Installation node",
+        "node": "Node",
+        "nextcloud_webapp": "Nextcloud webapp",
+        "created": "Created",
+        "size": "Size",
+        "name": "Name",
+        "no_images": "No images",
+        "open_nextcloud_webapp": "Open Nextcloud",
+        "no_services": "No services",
+        "configure": "Configure",
+        "app_instance": "App instance",
+        "mount": "Mount",
+        "title": "Status",
+        "not_configured": "Not configured",
+        "no_volumes": "No volumes"
+    },
+    "settings": {
+        "host": "Host name",
+        "disabled": "Disabled",
+        "host_placeholder": "E.g. mynextcloud.example.org",
+        "collabora_host_tooltip": "Collabora Online Development Edition (CODE) is a self-hostable LibreOffice Online server. It allows you to edit office documents in a web browser.",
+        "configuring": "Configuration in progress...",
+        "instance_configuration": "Configure {instance}",
+        "admin_password_tooltip": "The user 'admin' is the internal administrator of Nextcloud. This password is used to authenticate the 'admin' user in the Nextcloud web interface.",
+        "host_string_gte": "The host name can't be empty",
+        "configure_nextcloud": "Configure Nextcloud",
+        "collabora_placeholder": "Select a collabora server or leave empty to disable",
+        "admin_password": "Password for user 'admin'",
+        "lets_encrypt": "Let's Encrypt certificate",
+        "host_invalid_type": "Invalid host name",
+        "host_format": "Must be a valid fully qualified domain name",
+        "save": "Save",
+        "tls_verify_collabora": "Verify TLS certificate",
+        "enabled": "Enabled",
+        "collabora_host": "CODE server host name",
+        "domain": "User domain",
+        "host_pattern": "Must be a valid fully qualified domain name",
+        "title": "Settings",
+        "choose_ldap_domain": "Select a user domain",
+        "no_user_domain": "Nextcloud internal user database"
+    },
+    "about": {
+        "title": "About"
+    },
+    "error": {
+        "403": "Operation not authorized",
+        "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
+        "401": "Invalid authentication",
+        "cannot_retrieve_module_info": "Cannot retrieve module info",
+        "generic_error": "Something went wrong",
+        "cannot_retrieve_configuration": "Cannot retrieve configuration",
+        "error": "Error",
+        "network_timeout": "Network timeout",
+        "password_invalid_chars": "The password may not contain spaces nor the following characters: ' \" =",
+        "404": "Resource not found",
+        "network_error": "Network error",
+        "validation_error": "Validation error"
+    },
+    "common": {
+        "required": "Required",
+        "work_in_progress": "Work in progress"
+    },
+    "action": {
+        "get-module-info": "Get module info",
+        "get-status": "Get status",
+        "configure-module": "Configure module",
+        "get-configuration": "Get configuration"
+    },
+    "task": {
+        "cannot_create_task": "Cannot create task {action}"
+    }
+}
