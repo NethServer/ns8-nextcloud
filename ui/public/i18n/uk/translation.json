@@ -1,0 +1,77 @@
+{
+    "status": {
+        "app_volumes": "App volume | App volumes",
+        "services": "Service | Services",
+        "app_images": "App image | App images",
+        "installation_node": "Installation node",
+        "node": "Node",
+        "nextcloud_webapp": "Веб-додаток Nextcloud",
+        "created": "Created",
+        "size": "Size",
+        "name": "Name",
+        "no_images": "No images",
+        "open_nextcloud_webapp": "Відкрийте Nextcloud",
+        "no_services": "No services",
+        "configure": "Configure",
+        "app_instance": "App instance",
+        "mount": "Mount",
+        "title": "Status",
+        "not_configured": "Not configured",
+        "no_volumes": "No volumes"
+    },
+    "settings": {
+        "host": "Ім'я хоста",
+        "disabled": "Disabled",
+        "host_placeholder": "наприклад mynextcloud.example.org",
+        "collabora_host_tooltip": "Collabora Online Development Edition (CODE) — це автономний сервер LibreOffice Online. Він дозволяє редагувати офісні документи у веб-браузері.",
+        "configuring": "Триває налаштування...",
+        "instance_configuration": "Configure {instance}",
+        "admin_password_tooltip": "Користувач 'admin' є внутрішнім адміністратором Nextcloud. Цей пароль використовується для автентифікації користувача адміністратора у веб-інтерфейсі Nextcloud.",
+        "host_string_gte": "Ім’я хоста не може бути порожнім",
+        "configure_nextcloud": "Налаштуйте Nextcloud",
+        "collabora_placeholder": "Виберіть сервер Collaborata або залиште пустим, щоб вимкнути",
+        "admin_password": "Пароль для користувача 'admin'",
+        "lets_encrypt": "Let's Encrypt certificate",
+        "host_invalid_type": "Недійсне ім'я хоста",
+        "host_format": "Must be a valid fully qualified domain name",
+        "save": "Save",
+        "tls_verify_collabora": "Перевірте сертифікат TLS",
+        "enabled": "Enabled",
+        "collabora_host": "Ім'я хоста сервера CODE",
+        "domain": "Домен користувача",
+        "host_pattern": "Must be a valid fully qualified domain name",
+        "title": "Settings",
+        "choose_ldap_domain": "Виберіть домен користувача",
+        "no_user_domain": "Внутрішня база даних користувачів Nextcloud"
+    },
+    "about": {
+        "title": "About"
+    },
+    "error": {
+        "403": "Operation not authorized",
+        "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
+        "401": "Invalid authentication",
+        "cannot_retrieve_module_info": "Cannot retrieve module info",
+        "generic_error": "Something went wrong",
+        "cannot_retrieve_configuration": "Cannot retrieve configuration",
+        "error": "Error",
+        "network_timeout": "Network timeout",
+        "password_invalid_chars": "Пароль не може містити пробілів і таких символів: ' \" =",
+        "404": "Resource not found",
+        "network_error": "Network error",
+        "validation_error": "Validation error"
+    },
+    "common": {
+        "required": "Required",
+        "work_in_progress": "Work in progress"
+    },
+    "action": {
+        "get-module-info": "Get module info",
+        "get-status": "Get status",
+        "configure-module": "Configure module",
+        "get-configuration": "Get configuration"
+    },
+    "task": {
+        "cannot_create_task": "Cannot create task {action}"
+    }
+}
