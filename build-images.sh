@@ -45,7 +45,7 @@ buildah bud -t ${repobase}/nextcloud-app
 popd
 
 # Append the image URL to the images array
-images+=("${nc_image}")
+images+=("${repobase}/nextcloud-app")
 
 #
 # NOTICE:
