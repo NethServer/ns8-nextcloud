@@ -3,8 +3,6 @@
 # Terminate on error
 set -e
 
-NC_VERSION=29.0.10
-
 # Prepare variables for later use
 images=()
 # The image will be pushed to GitHub container registry
@@ -43,8 +41,7 @@ images+=("${repobase}/${reponame}")
 
 # Build nextcloud-app image
 pushd nextcloud
-nc_image=${repobase}/nextcloud-app
-sed "s/_NC_VERSION_/${NC_VERSION}/" Dockerfile | buildah bud -f - -t ${nc_image}
+buildah bud -t ${repobase}/nextcloud-app
 popd
 
 # Append the image URL to the images array
