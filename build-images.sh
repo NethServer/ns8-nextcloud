@@ -31,7 +31,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
     --label="org.nethserver.min-from=1.2.1" \
-    --label="org.nethserver.images=docker.io/redis:6.2.12-alpine docker.io/mariadb:10.6.20 docker.io/nginx:1.27.3-alpine ghcr.io/nethserver/nextcloud-app:${IMAGETAG}" \
+    --label="org.nethserver.images=docker.io/redis:6.2.17-alpine docker.io/mariadb:10.6.20 docker.io/nginx:1.27.3-alpine ghcr.io/nethserver/nextcloud-app:${IMAGETAG}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
