@@ -20,7 +20,7 @@
         "no_volumes": "No volumes"
     },
     "settings": {
-        "host": "Ім'я хоста",
+        "host": "Host name",
         "disabled": "Disabled",
         "host_placeholder": "наприклад mynextcloud.example.org",
         "collabora_host_tooltip": "Collabora Online Development Edition (CODE) — це автономний сервер LibreOffice Online. Він дозволяє редагувати офісні документи у веб-браузері.",

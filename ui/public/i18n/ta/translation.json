@@ -1,0 +1,77 @@
+{
+    "common": {
+        "required": "Required",
+        "work_in_progress": "Work in progress"
+    },
+    "status": {
+        "services": "Service | Services",
+        "app_instance": "App instance",
+        "title": "Status",
+        "name": "Name",
+        "nextcloud_webapp": "நெக்ச்ட் முகில் வெப்ஆப்",
+        "created": "Created",
+        "size": "Size",
+        "no_images": "No images",
+        "app_volumes": "App volume | App volumes",
+        "app_images": "App image | App images",
+        "open_nextcloud_webapp": "நெக்ச்ட் முகில் திறக்கவும்",
+        "no_services": "No services",
+        "configure": "உள்ளமைக்கவும்",
+        "mount": "Mount",
+        "not_configured": "Not configured",
+        "installation_node": "Installation node",
+        "node": "Node",
+        "no_volumes": "No volumes"
+    },
+    "settings": {
+        "host": "புரவலன் பெயர்",
+        "configuring": "உள்ளமைவு முன்னேற்றத்தில் உள்ளது ...",
+        "collabora_placeholder": "ஒத்துழைப்பு சேவையகத்தைத் தேர்ந்தெடுக்கவும் அல்லது முடக்க காலியாக விடவும்",
+        "host_placeholder": "எ.கா. Minektzlood.",
+        "collabora_host_tooltip": "ஒத்துழைப்பு நிகழ்நிலை மேம்பாட்டு பதிப்பு (குறியீடு) என்பது ஒரு சுய-ஓச்டபிள் லிப்ரேஃபிச் நிகழ்நிலை சேவையகம். வலை உலாவியில் அலுவலக ஆவணங்களைத் திருத்த இது உங்களை அனுமதிக்கிறது.",
+        "disabled": "முடக்கப்பட்டது",
+        "instance_configuration": "{உதாரணத்தை உள்ளமைக்கவும்",
+        "admin_password_tooltip": "பயனர் 'நிர்வாகி' என்பது நெக்ச்ட் கிளவுட்டின் உள் நிர்வாகி. இந்த கடவுச்சொல் நெக்ச்ட் முகில் வலை இடைமுகத்தில் 'நிர்வாகி' பயனரை அங்கீகரிக்கப் பயன்படுகிறது.",
+        "host_string_gte": "புரவலன் பெயர் காலியாக இருக்க முடியாது",
+        "configure_nextcloud": "நெக்ச்ட் கிளவுட்டை உள்ளமைக்கவும்",
+        "admin_password": "பயனர் 'நிர்வாகிக்கான கடவுச்சொல்'",
+        "lets_encrypt": "சான்றிதழை குறியாக்குவோம்",
+        "host_invalid_type": "தவறான புரவலன் பெயர்",
+        "host_format": "செல்லுபடியாகும் முழு தகுதி வாய்ந்த டொமைன் பெயராக இருக்க வேண்டும்",
+        "save": "சேமி",
+        "tls_verify_collabora": "TLS சான்றிதழை சரிபார்க்கவும்",
+        "enabled": "இயக்கப்பட்டது",
+        "collabora_host": "குறியீடு சேவையக புரவலன் பெயர்",
+        "domain": "பயனர் டொமைன்",
+        "host_pattern": "செல்லுபடியாகும் முழு தகுதி வாய்ந்த டொமைன் பெயராக இருக்க வேண்டும்",
+        "title": "Settings",
+        "choose_ldap_domain": "பயனர் களத்தைத் தேர்ந்தெடுக்கவும்",
+        "no_user_domain": "நெக்ச்ட் முகில் உள் பயனர் தரவுத்தளம்"
+    },
+    "about": {
+        "title": "About"
+    },
+    "task": {
+        "cannot_create_task": "Cannot create task {action}"
+    },
+    "error": {
+        "403": "Operation not authorized",
+        "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
+        "401": "Invalid authentication",
+        "cannot_retrieve_module_info": "Cannot retrieve module info",
+        "generic_error": "Something went wrong",
+        "cannot_retrieve_configuration": "உள்ளமைவை மீட்டெடுக்க முடியாது",
+        "error": "Error",
+        "network_timeout": "Network timeout",
+        "password_invalid_chars": "கடவுச்சொல்லில் இடைவெளிகள் அல்லது பின்வரும் எழுத்துக்கள் இருக்காது: '\"=",
+        "404": "Resource not found",
+        "network_error": "Network error",
+        "validation_error": "Validation error"
+    },
+    "action": {
+        "get-module-info": "Get module info",
+        "get-status": "Get status",
+        "configure-module": "Configure module",
+        "get-configuration": "Get configuration"
+    }
+}
