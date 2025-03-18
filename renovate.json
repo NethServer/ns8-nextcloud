@@ -2,5 +2,32 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>NethServer/.github:ns8"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["notify_push"],
+      "groupName": "notify_push",
+      "versioning": "semver"
+    },
+    {
+      "matchPaths": ["notify_push/Dockerfile"],
+      "matchPackageNames": ["notify_push"],
+      "enabled": true,
+      "automerge": false
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "notify_push/Dockerfile"
+      ],
+      "matchStrings": [
+        "NOTIFY_PUSH_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "nextcloud/notify_push",
+      "versioningTemplate": "semver"
+    }
   ]
 }

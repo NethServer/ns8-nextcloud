@@ -1,0 +1,23 @@
+[Unit]
+Description=Podman nextcloud-notify_push.service
+After=nextcloud-app.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/nextcloud-notify_push.pid %t/nextcloud-notify_push.ctr-id
+ExecStartPre=runagent setup-notify_push
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/nextcloud-notify_push.pid --cidfile %t/nextcloud-notify_push.ctr-id --cgroups=no-conmon \
+  --pod-id-file %t/nextcloud.pod-id \
+  --replace -d --name nextcloud-notify_push \
+  --env-file %S/state/notify_push.env \
+   ${NEXTCLOUD_NOTIFY_PUSH_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/nextcloud-notify_push.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/nextcloud-notify_push.ctr-id
+PIDFile=%t/nextcloud-notify_push.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
