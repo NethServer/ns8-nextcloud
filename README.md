@@ -30,7 +30,7 @@ Then launch `configure-module`, by setting the following parameters:
 
 Example:
 ```
-api-cli run configure-module --agent module/nextcloud1 --data - <<EOF
+api-cli run module/nextcloud1/configure-module --data - <<EOF
 {
     "host": "nextcloud.nethserver.org",
     "lets_encrypt": true,
