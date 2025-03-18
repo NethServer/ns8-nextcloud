@@ -26,5 +26,5 @@ set -e
 exec 1>&2
 
 # Enable and restart the service
-systemctl --user enable nextcloud.service nextcloud-redis.service nextcloud-db.service nextcloud-app.service nextcloud-nginx.service 
-systemctl --user restart nextcloud.service nextcloud-redis.service nextcloud-db.service nextcloud-app.service nextcloud-nginx.service 
+systemctl --user enable nextcloud.service nextcloud-redis.service nextcloud-db.service nextcloud-app.service nextcloud-nginx.service nextcloud-notify_push.service
+systemctl --user restart nextcloud.service nextcloud-redis.service nextcloud-db.service nextcloud-app.service nextcloud-nginx.service nextcloud-notify_push.service

@@ -9,3 +9,8 @@
 # see https://github.com/nextcloud/server/issues/45517
 #  Failed to get an iterator for log entries: Logreader application only supports "file" log_type
 occ app:disable logreader
+
+# install and configure files high performance backend
+occ app:install notify_push
+occ app:enable notify_push
+occ -n notify_push:setup http://127.0.0.1/push

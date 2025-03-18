@@ -31,7 +31,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
     --label="org.nethserver.min-from=1.2.1" \
-    --label="org.nethserver.images=docker.io/redis:7.4.2-alpine docker.io/mariadb:10.6.21 docker.io/nginx:1.27.4-alpine ghcr.io/nethserver/nextcloud-app:${IMAGETAG}" \
+    --label="org.nethserver.images=docker.io/redis:7.4.2-alpine docker.io/mariadb:10.6.21 docker.io/nginx:1.27.4-alpine ghcr.io/nethserver/nextcloud-app:${IMAGETAG} ghcr.io/nethserver/nextcloud-notify_push:${IMAGETAG}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
@@ -41,11 +41,19 @@ images+=("${repobase}/${reponame}")
 
 # Build nextcloud-app image
 pushd nextcloud
-buildah bud -t ${repobase}/nextcloud-app
+buildah build -t ${repobase}/nextcloud-app
 popd
 
 # Append the image URL to the images array
 images+=("${repobase}/nextcloud-app")
+
+# Build notify_push image (Files High Performance Backend)
+pushd notify_push
+buildah build -t ${repobase}/nextcloud-notify_push
+popd
+
+# Append the image URL to the images array
+images+=("${repobase}/nextcloud-notify_push")
 
 #
 # NOTICE:
