@@ -31,6 +31,7 @@ import agent
 import subprocess
 from agent.ldapproxy import Ldapproxy
 import json
+import os
 
 # Execute occ command
 # It returns the process exit code and output
@@ -68,6 +69,7 @@ cret, coutput = occ(["ldap:show-config", "s01"])
 if cret > 0:
     occ(["ldap:create-empty-config"])
 
+ldap_mail_attribute = os.getenv("LDAP_MAIL_ATTRIBUTE", "")
 
 # Static config for ldapproxy
 set_ldap("ldapHost", "10.0.2.2") # special podman IP
@@ -92,12 +94,18 @@ if domain["schema"] == "ad":
     set_ldap("ldapGroupFilter", "(&(objectClass=group)(!(cn=backup operators))(!(cn=users))(!(cn=read-only domain controllers))(!(cn=network configuration operators))(!(cn=enterprise admins))(!(cn=domain users))(!(cn=allowed rodc password replication group))(!(cn=iis_iusrs))(!(cn=incoming forest trust builders))(!(cn=domain computers))(!(cn=enterprise read-only domain controllers))(!(cn=replicator))(!(cn=schema admins))(!(cn=group policy creator owners))(!(cn=domain controllers))(!(cn=ras and ias servers))(!(cn=denied rodc password replication group))(!(cn=dnsupdateproxy))(!(cn=print operators))(!(cn=performance log users))(!(cn=account operators))(!(cn=windows authorization access group))(!(cn=server operators))(!(cn=terminal server license servers))(!(cn=remote desktop users))(!(cn=guests))(!(cn=performance monitor users))(!(cn=cert publishers))(!(cn=dnsadmins))(!(cn=cryptographic operators))(!(cn=administrators))(!(cn=event log readers))(!(cn=certificate service dcom access))(!(cn=pre-windows 2000 compatible access))(!(cn=domain guests))(!(cn=distributed com users)))")
     set_ldap("ldapGroupFilterObjectclass", "group")
     set_ldap("ldapGroupMemberAssocAttr", "member")
-    set_ldap("ldapLoginFilter", "(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)))")
+    if ldap_mail_attribute:
+        set_ldap("ldapLoginFilter", "(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)(mail=%uid)))")
+    else:
+        set_ldap("ldapLoginFilter", "(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)))")
     set_ldap("ldapUserDisplayName", "displayName")
     set_ldap("ldapUserDisplayName2", "sAMAccountName")
     set_ldap("ldapUserFilter", "(&(|(objectclass=person)))")
     set_ldap("ldapUserFilterObjectclass", "person")
-    set_ldap("ldapEmailAttribute", "userPrincipalname")
+    if ldap_mail_attribute:
+        set_ldap("ldapEmailAttribute", ldap_mail_attribute)
+    else:
+        set_ldap("ldapEmailAttribute", "userPrincipalname")
     set_ldap("useMemberOfToDetectMembership", "1") # expand all groups
 else:
     set_ldap("ldapGroupFilter", "(&(|(objectclass=posixGroup)))")
