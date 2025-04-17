@@ -52,6 +52,21 @@ Example:
 runagent -m nextcloud1 vi zzz_nethserver.conf
 ```
 
+## Specific ldap mail field for Samba AD
+
+You can change the mail field used by Nextcloud with an environment variable. The default LDAP mail field is `userPrincipalName`, which corresponds to the AD domain name and not the user's email address.
+By adding `LDAP_MAIL_ATTRIBUTE` your users wil be able to login with :
+ - `sAMAccountName`: eg `john`
+ - `userPrincipalName`: eg `john@ad.domain.com`
+ - `mail`: eg `john@domain.com`
+
+
+`runagent -m nextcloud1`
+`vim environment`
+add : `LDAP_MAIL_ATTRIBUTE=mail`
+`systemctl --user restart nextcloud`
+
+
 ## Uninstall
 
 To uninstall the instance:
