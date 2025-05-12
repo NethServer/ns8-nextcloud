@@ -14,3 +14,6 @@ occ app:disable logreader
 occ app:install notify_push
 occ app:enable notify_push
 occ -n notify_push:setup http://127.0.0.1/push
+
+# Suppress error when notify push versions do not match, see https://github.com/NethServer/dev/issues/7450
+exit 0
