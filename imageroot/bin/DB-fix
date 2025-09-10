@@ -20,8 +20,6 @@
 # along with NethServer.  If not, see COPYING.
 #
 
-#!/bin/bash
-
 # Fix row format
 if occ setupchecks | grep -q 'MySQL row format: Incorrect'; then
   echo "Fix DB row format..."
