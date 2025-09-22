@@ -68,10 +68,10 @@ add : `LDAP_MAIL_ATTRIBUTE=mail`
 
 ## DB-fix script
 
-Nextcloud needs manual DB fixes which can't be automated on upgrade as database operations might take a long time when there's much data.
-For that case there's a `DB-fix` script that can be executed manually to fix the Nextcloud database outside production times.
+Nextcloud requires manual database fixes that cannot be automated during upgrade, as operations may take a long time with large amounts of data.
+In such cases, the `nextcloud-db-optimize` command can be run manually to optimize the Nextcloud database outside production hours.
 
-    runagent -m nextcloud1 DB-fix
+    runagent -m nextcloud1 nextcloud-db-optimize
 
 ## Uninstall
 

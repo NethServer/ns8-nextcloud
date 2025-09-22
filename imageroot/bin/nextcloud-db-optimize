@@ -6,7 +6,7 @@
 #
 
 # Fix row format
-# Occurs after upgrading to Nextcloud 31 for installations that were originally deployed with version 24 or lower.
+# Occurs when migrated from NS7 after upgrading to Nextcloud 31 for installations that were originally deployed with version 24 or lower.
 if occ setupchecks | grep -q 'MySQL row format: Incorrect'; then
   echo "Fix DB row format..."
   # Create temp sql file
