@@ -66,6 +66,12 @@ By adding `LDAP_MAIL_ATTRIBUTE` your users wil be able to login with :
 add : `LDAP_MAIL_ATTRIBUTE=mail`
 `systemctl --user restart nextcloud`
 
+## DB-fix script
+
+Nextcloud requires manual database fixes that cannot be automated during upgrade, as operations may take a long time with large amounts of data.
+In such cases, the `nextcloud-db-optimize` command can be run manually to optimize the Nextcloud database outside production hours.
+
+    runagent -m nextcloud1 nextcloud-db-optimize
 
 ## Uninstall
 
