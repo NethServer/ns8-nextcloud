@@ -30,5 +30,9 @@ config = {}
 # Read current configuration from config file
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
-config['lets_encrypt'] = False
+
+# remove lets_encrypt if present to avoid issues with restore
+if "lets_encrypt" in config:
+    del config["lets_encrypt"]
+
 agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data=config)
