@@ -268,6 +268,7 @@ export default {
   created() {
     this.getConfiguration();
     this.listUserDomains();
+    this.getStatus();
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
