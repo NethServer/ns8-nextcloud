@@ -30,5 +30,5 @@ config = {}
 # Read current configuration from config file
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
-
+config['lets_encrypt'] = False
 agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data=config)
