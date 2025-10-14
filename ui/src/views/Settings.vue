@@ -39,7 +39,7 @@
               ref="host"
             >
             </cv-text-input>
-             <NsTextInput
+            <NsTextInput
               :label="$t('settings.admin_password')"
               type="password"
               v-model.trim="password"
@@ -131,9 +131,7 @@
                 ref="host"
               >
                 <template slot="tooltip">
-                {{
-                  $t("settings.collabora_host_tooltip")
-                }}
+                  {{ $t("settings.collabora_host_tooltip") }}
                 </template>
               </NsComboBox>
               <cv-toggle
@@ -496,7 +494,7 @@ export default {
             is_collabora: this.is_collabora,
             collabora_host: this.collabora_host,
             tls_verify_collabora: this.tls_verify_collabora,
-            password: this.password
+            password: this.password,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
@@ -549,7 +547,7 @@ export default {
       this.domains.unshift({
         name: "no_user_domain",
         label: this.$t("settings.no_user_domain"),
-        value: "-"
+        value: "-",
       });
       this.loading.listUserDomains = false;
     },
@@ -557,7 +555,7 @@ export default {
       this.loading.configureModule = false;
       // reload configuration
       this.getConfiguration();
-    }
+    },
   },
 };
 </script>
