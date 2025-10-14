@@ -15,7 +15,9 @@ import agent
 data = json.load(sys.stdin)
 # Setup default values
 host = data["host"]
-le = data["lets_encrypt"]
+le = False
+if "lets_encrypt" in data:
+    le = data["lets_encrypt"]
 
 ## Configure set-route
 set_route_data = {
