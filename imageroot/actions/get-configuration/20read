@@ -79,5 +79,5 @@ config["is_collabora"] = True if array_collabora else False
 if "tls_verify_collabora" not in config:
     config["tls_verify_collabora"] = False
 
-# Dump the configuratio to stdout
+# Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)
