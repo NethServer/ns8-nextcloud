@@ -34,6 +34,7 @@ import subprocess
 try:
     with open('config.json', 'r') as cf:
         config = json.loads(cf.read())
+        config['lets_encrypt'] = agent.get_route(os.environ['MODULE_ID']).get('lets_encrypt', False)
 except:
     config = {"lets_encrypt": False}
 
@@ -78,5 +79,5 @@ config["is_collabora"] = True if array_collabora else False
 if "tls_verify_collabora" not in config:
     config["tls_verify_collabora"] = False
 
-# Dump the configuratio to stdou
+# Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)
