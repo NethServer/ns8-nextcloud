@@ -106,7 +106,6 @@
               :invalid-message="$t(error.listUserDomains)"
               :disabled="loadingUi"
               :label="$t('settings.choose_ldap_domain')"
-              light
               tooltipAlignment="start"
               tooltipDirection="top"
               ref="domain"
