@@ -158,8 +158,8 @@
                 />
               </cv-column>
             </cv-row>
-            <cv-row>
-              <cv-column v-if="validationErrorDetails.length">
+            <cv-row v-if="validationErrorDetails.length">
+              <cv-column>
                 <NsInlineNotification
                   kind="error"
                   :title="
