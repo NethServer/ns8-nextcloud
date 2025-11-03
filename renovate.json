@@ -15,6 +15,11 @@
       "matchPackageNames": ["notify_push"],
       "enabled": true,
       "automerge": false
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["nginx"],
+      "allowedVersions": "1.28.*"
     }
   ],
   "regexManagers": [
