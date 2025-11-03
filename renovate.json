@@ -20,6 +20,16 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["nginx"],
       "allowedVersions": "1.28.*"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["redis"],
+      "allowedVersions": "7.4.*"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["mariadb"],
+      "allowedVersions": "10.6.*"
     }
   ],
   "regexManagers": [
