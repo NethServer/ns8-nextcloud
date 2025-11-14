@@ -39,7 +39,7 @@
               ref="host"
             >
             </cv-text-input>
-             <NsTextInput
+            <NsTextInput
               :label="$t('settings.admin_password')"
               type="password"
               v-model.trim="password"
@@ -53,20 +53,51 @@
                 <span>{{ $t("settings.admin_password_tooltip") }}</span>
               </template>
             </NsTextInput>
-            <cv-toggle
+            <NsToggle
               value="letsEncrypt"
-              :label="$t('settings.lets_encrypt')"
+              :label="core.$t('apps_lets_encrypt.request_https_certificate')"
               v-model="isLetsEncryptEnabled"
               :disabled="loadingUi"
               class="mg-bottom"
             >
+              <template #tooltip>
+                <div class="mg-bottom-sm">
+                  {{ core.$t("apps_lets_encrypt.lets_encrypt_tips") }}
+                </div>
+                <div class="mg-bottom-sm">
+                  <cv-link @click="goToCertificates">
+                    {{ core.$t("apps_lets_encrypt.go_to_tls_certificates") }}
+                  </cv-link>
+                </div>
+              </template>
               <template slot="text-left">{{
                 $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
                 $t("settings.enabled")
               }}</template>
-            </cv-toggle>
+            </NsToggle>
+            <cv-row v-if="isLetsEncryptCurrentlyEnabled && !isLetsEncryptEnabled">
+              <cv-column>
+                <NsInlineNotification
+                  kind="warning"
+                  :title="
+                    core.$t('apps_lets_encrypt.lets_encrypt_disabled_warning')
+                  "
+                  :description="
+                    core.$t(
+                      'apps_lets_encrypt.lets_encrypt_disabled_warning_description',
+                      {
+                        node: this.status.node_ui_name
+                          ? this.status.node_ui_name
+                          : this.status.node,
+                      }
+                    )
+                  "
+                  :showCloseButton="false"
+                />
+              </cv-column>
+            </cv-row>
             <NsComboBox
               v-model="domain"
               :options="domains"
@@ -75,7 +106,6 @@
               :invalid-message="$t(error.listUserDomains)"
               :disabled="loadingUi"
               :label="$t('settings.choose_ldap_domain')"
-              light
               tooltipAlignment="start"
               tooltipDirection="top"
               ref="domain"
@@ -100,9 +130,7 @@
                 ref="host"
               >
                 <template slot="tooltip">
-                {{
-                  $t("settings.collabora_host_tooltip")
-                }}
+                  {{ $t("settings.collabora_host_tooltip") }}
                 </template>
               </NsComboBox>
               <cv-toggle
@@ -120,6 +148,38 @@
                 }}</template>
               </cv-toggle>
             </template>
+            <cv-row v-if="error.getStatus">
+              <cv-column>
+                <NsInlineNotification
+                  kind="error"
+                  :title="$t('action.get-status')"
+                  :description="error.getStatus"
+                  :showCloseButton="false"
+                />
+              </cv-column>
+            </cv-row>
+            <cv-row v-if="validationErrorDetails.length">
+              <cv-column>
+                <NsInlineNotification
+                  kind="error"
+                  :title="
+                    core.$t('apps_lets_encrypt.cannot_obtain_certificate')
+                  "
+                  :showCloseButton="false"
+                >
+                  <template #description>
+                    <div class="flex flex-col gap-2">
+                      <div
+                        v-for="(detail, index) in validationErrorDetails"
+                        :key="index"
+                      >
+                        {{ detail }}
+                      </div>
+                    </div>
+                  </template>
+                </NsInlineNotification>
+              </cv-column>
+            </cv-row>
             <NsButton
               kind="primary"
               :icon="Save20"
@@ -156,11 +216,14 @@ export default {
       q: {
         page: "settings",
       },
+      status: {},
+      validationErrorDetails: [],
       urlCheckInterval: null,
       loading: {
         getConfiguration: true,
         configureModule: false,
         listUserDomains: true,
+        getStatus: false,
       },
       error: {
         getConfiguration: "",
@@ -168,7 +231,8 @@ export default {
         listUserDomains: "",
         collabora_host: "",
         password: "",
-        host: ""
+        host: "",
+        getStatus: "",
       },
       style: {
         lowContrast: false,
@@ -176,6 +240,8 @@ export default {
       },
       host: "",
       isLetsEncryptEnabled: false,
+      isLetsEncryptCurrentlyEnabled: false,
+      collabora_host: "",
       domain: "",
       password: "Nethesis,1234",
       domains: [],
@@ -192,13 +258,15 @@ export default {
       return (
         this.loading.getConfiguration ||
         this.loading.listUserDomains ||
-        this.loading.configureModule
+        this.loading.configureModule ||
+        this.loading.getStatus
       );
     },
   },
   created() {
     this.getConfiguration();
     this.listUserDomains();
+    this.getStatus();
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -211,6 +279,51 @@ export default {
     next();
   },
   methods: {
+    goToCertificates() {
+      this.core.$router.push("/settings/tls-certificates");
+    },
+    async getStatus() {
+      this.loading.getStatus = true;
+      this.error.getStatus = "";
+      const taskAction = "get-status";
+      const eventId = this.getUuid();
+      // register to task error
+      this.core.$root.$once(
+        `${taskAction}-aborted-${eventId}`,
+        this.getStatusAborted
+      );
+      // register to task completion
+      this.core.$root.$once(
+        `${taskAction}-completed-${eventId}`,
+        this.getStatusCompleted
+      );
+      const res = await to(
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          extra: {
+            title: this.$t("action." + taskAction),
+            isNotificationHidden: true,
+            eventId,
+          },
+        })
+      );
+      const err = res[0];
+      if (err) {
+        console.error(`error creating task ${taskAction}`, err);
+        this.error.getStatus = this.getErrorMessage(err);
+        this.loading.getStatus = false;
+        return;
+      }
+    },
+    getStatusAborted(taskResult, taskContext) {
+      console.error(`${taskContext.action} aborted`, taskResult);
+      this.error.getStatus = this.$t("error.generic_error");
+      this.loading.getStatus = false;
+    },
+    getStatusCompleted(taskContext, taskResult) {
+      this.status = taskResult.output;
+      this.loading.getStatus = false;
+    },
     async getConfiguration() {
       this.loading.getConfiguration = true;
       this.error.getConfiguration = "";
@@ -295,6 +408,7 @@ export default {
     },
     validateSaveSettings() {
       this.clearErrors(this);
+      this.validationErrorDetails = [];
       let isValidationOk = true;
       if (!this.host) {
         // test field cannot be empty
@@ -325,10 +439,22 @@ export default {
     },
     saveSettingsValidationFailed(validationErrors) {
       this.loading.configureModule = false;
+      let focusAlreadySet = false;
       for (const validationError of validationErrors) {
         const param = validationError.parameter;
-        // set i18n error message
-        this.error[param] = "settings." + validationError.error;
+        if (validationError.details) {
+          // show inline error notification with details
+          this.validationErrorDetails = validationError.details
+            .split("\n")
+            .filter((detail) => detail.trim() !== "");
+        } else {
+          // set i18n error message
+          this.error[param] = this.$t("settings." + validationError.error);
+          if (!focusAlreadySet) {
+            this.focusElement(param);
+            focusAlreadySet = true;
+          }
+        }
       }
     },
     async saveSettings() {
@@ -367,7 +493,7 @@ export default {
             is_collabora: this.is_collabora,
             collabora_host: this.collabora_host,
             tls_verify_collabora: this.tls_verify_collabora,
-            password: this.password
+            password: this.password,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
@@ -394,6 +520,7 @@ export default {
       const config = taskResult.output;
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
+      this.isLetsEncryptCurrentlyEnabled = config.lets_encrypt;
       this.running = config.running;
       this.installed = config.installed;
       this.is_collabora = config.is_collabora;
@@ -419,7 +546,7 @@ export default {
       this.domains.unshift({
         name: "no_user_domain",
         label: this.$t("settings.no_user_domain"),
-        value: "-"
+        value: "-",
       });
       this.loading.listUserDomains = false;
     },
@@ -427,7 +554,7 @@ export default {
       this.loading.configureModule = false;
       // reload configuration
       this.getConfiguration();
-    }
+    },
   },
 };
 </script>

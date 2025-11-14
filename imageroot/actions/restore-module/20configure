@@ -31,4 +31,9 @@ config = {}
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
 
-agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data=config)
+# remove lets_encrypt if present to avoid issues with restore
+if "lets_encrypt" in config:
+    del config["lets_encrypt"]
+
+configure_retval = agent.tasks.run(agent_id=os.environ['AGENT_ID'], action='configure-module', data=config)
+agent.assert_exp(configure_retval['exit_code'] == 0, "The configure-module subtask failed!")

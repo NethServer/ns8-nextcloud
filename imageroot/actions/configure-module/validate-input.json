@@ -15,8 +15,7 @@
   ],
   "type": "object",
   "required": [
-    "host",
-    "lets_encrypt"
+    "host"
   ],
   "properties": {
     "host": {
