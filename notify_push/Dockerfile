@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 FROM clux/muslrust:stable AS build
-ARG NOTIFY_PUSH_VERSION="1.1.1"
+ARG NOTIFY_PUSH_VERSION="1.2.1"
 
 # Download and extract the source code
 RUN apt-get update && apt-get install -y wget && \
