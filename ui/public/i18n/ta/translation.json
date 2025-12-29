@@ -1,27 +1,27 @@
 {
     "common": {
-        "required": "Required",
-        "work_in_progress": "Work in progress"
+        "required": "தேவை",
+        "work_in_progress": "வேலை நடந்து கொண்டிருக்கிறது"
     },
     "status": {
-        "services": "Service | Services",
-        "app_instance": "App instance",
-        "title": "Status",
-        "name": "Name",
+        "services": "சேவை | சேவைகள்",
+        "app_instance": "பயன்பாட்டு நிகழ்வு",
+        "title": "நிலை",
+        "name": "பெயர்",
         "nextcloud_webapp": "நெக்ச்ட் முகில் வெப்ஆப்",
-        "created": "Created",
-        "size": "Size",
-        "no_images": "No images",
-        "app_volumes": "App volume | App volumes",
-        "app_images": "App image | App images",
+        "created": "உருவாக்கப்பட்டது",
+        "size": "அளவு",
+        "no_images": "படங்கள் இல்லை",
+        "app_volumes": "பயன்பாட்டின் அளவு | பயன்பாட்டின் தொகுதிகள்",
+        "app_images": "பயன்பாட்டு படம் | பயன்பாட்டு படங்கள்",
         "open_nextcloud_webapp": "நெக்ச்ட் முகில் திறக்கவும்",
-        "no_services": "No services",
+        "no_services": "சேவைகள் இல்லை",
         "configure": "உள்ளமைக்கவும்",
-        "mount": "Mount",
-        "not_configured": "Not configured",
-        "installation_node": "Installation node",
-        "node": "Node",
-        "no_volumes": "No volumes"
+        "mount": "மவுண்ட்",
+        "not_configured": "கட்டமைக்கப்படவில்லை",
+        "installation_node": "நிறுவல் முனை",
+        "node": "கணு",
+        "no_volumes": "தொகுதிகள் இல்லை"
     },
     "settings": {
         "host": "புரவலன் பெயர்",
@@ -44,34 +44,34 @@
         "collabora_host": "குறியீடு சேவையக புரவலன் பெயர்",
         "domain": "பயனர் டொமைன்",
         "host_pattern": "செல்லுபடியாகும் முழு தகுதி வாய்ந்த டொமைன் பெயராக இருக்க வேண்டும்",
-        "title": "Settings",
+        "title": "அமைப்புகள்",
         "choose_ldap_domain": "பயனர் களத்தைத் தேர்ந்தெடுக்கவும்",
         "no_user_domain": "நெக்ச்ட் முகில் உள் பயனர் தரவுத்தளம்"
     },
     "about": {
-        "title": "About"
+        "title": "பற்றி"
     },
     "task": {
-        "cannot_create_task": "Cannot create task {action}"
+        "cannot_create_task": "பணி {action} ஐ உருவாக்க முடியாது"
     },
     "error": {
-        "403": "Operation not authorized",
-        "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
-        "401": "Invalid authentication",
-        "cannot_retrieve_module_info": "Cannot retrieve module info",
-        "generic_error": "Something went wrong",
+        "403": "செயல்பாடு அங்கீகரிக்கப்படவில்லை",
+        "cannot_retrieve_installed_modules": "நிறுவப்பட்ட தொகுதிகளை மீட்டெடுக்க முடியாது",
+        "401": "தவறான ஏற்பு",
+        "cannot_retrieve_module_info": "தொகுதி தகவலை மீட்டெடுக்க முடியவில்லை",
+        "generic_error": "ஏதோ தவறாகிவிட்டது",
         "cannot_retrieve_configuration": "உள்ளமைவை மீட்டெடுக்க முடியாது",
-        "error": "Error",
-        "network_timeout": "Network timeout",
+        "error": "பிழை",
+        "network_timeout": "பிணையம் நேரம் முடிந்தது",
         "password_invalid_chars": "கடவுச்சொல்லில் இடைவெளிகள் அல்லது பின்வரும் எழுத்துக்கள் இருக்காது: '\"=",
-        "404": "Resource not found",
-        "network_error": "Network error",
-        "validation_error": "Validation error"
+        "404": "சான்று கிடைக்கவில்லை",
+        "network_error": "பிணையம் பிழை",
+        "validation_error": "சரிபார்ப்பு பிழை"
     },
     "action": {
-        "get-module-info": "Get module info",
-        "get-status": "Get status",
-        "configure-module": "Configure module",
-        "get-configuration": "Get configuration"
+        "get-module-info": "தொகுதி தகவலைப் பெறுங்கள்",
+        "get-status": "அந்தச்தைப் பெறுங்கள்",
+        "configure-module": "தொகுதியை உள்ளமைக்கவும்",
+        "get-configuration": "உள்ளமைவைப் பெறுங்கள்"
     }
 }
