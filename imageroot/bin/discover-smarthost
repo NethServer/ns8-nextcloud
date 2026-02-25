@@ -17,16 +17,16 @@ smtp_settings = agent.get_smarthost_settings(rdb)
 
 envfile = "smarthost.env"
 
+with open('config.json', 'r') as cf:
+    config = json.loads(cf.read())
+
 # Using .tmp suffix: do not overwrite the target file until the new one is
 # saved to disk:
-if not smtp_settings['host']:
+if not smtp_settings['host'] or config['internal_smarthost'] == True:
     f = open(envfile, "w")
     f.write("")
     f.close
     sys.exit(0)
-
-with open('config.json', 'r') as cf:
-    config = json.loads(cf.read())
 
 domain = config['host'].split('.',1)[1]
 

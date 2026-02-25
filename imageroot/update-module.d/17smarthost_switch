@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import sys
+import agent
+import subprocess
+
+def occget(args):
+    cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
+    p = subprocess.run(cmd + args, capture_output=True)
+    return (p.stdout.decode()[:-1])
+
+smarthost = agent.read_envfile("smarthost.env")
+config = agent.read_envfile("config.env")
+
+# Exit if internal smarthost is already set
+if 'INTERNAL_SMARTHOST' in config:
+    sys.exit(0)
+
+# Get the smtphost via occ
+smtphost = occget(["config:system:get","mail_smtphost"])
+
+# Get the smarthost
+if 'SMTP_HOST' in smarthost:
+    smtpsmarthost=smarthost['SMTP_HOST']
+else:
+    smtpsmarthost=""
+
+# Compare occ with smarthost settings and set the internal_smarthost variable accordingly
+if smtphost == smtpsmarthost:
+    config['INTERNAL_SMARTHOST']=False
+    agent.write_envfile('config.env', config)
+else:
+    config['INTERNAL_SMARTHOST']=True
+    agent.write_envfile('config.env', config)

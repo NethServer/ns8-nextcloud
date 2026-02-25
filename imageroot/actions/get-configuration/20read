@@ -79,5 +79,8 @@ config["is_collabora"] = True if array_collabora else False
 if "tls_verify_collabora" not in config:
     config["tls_verify_collabora"] = False
 
+if "internal_smarthost" not in config:
+    config["internal_smarthost"] = False
+
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)
