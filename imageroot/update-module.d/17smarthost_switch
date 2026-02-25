@@ -32,8 +32,8 @@ else:
 
 # Compare occ with smarthost settings and set the internal_smarthost variable accordingly
 if smtphost == smtpsmarthost:
-    config['INTERNAL_SMARTHOST']=False
+    config['INTERNAL_SMARTHOST']='False'
     agent.write_envfile('config.env', config)
 else:
-    config['INTERNAL_SMARTHOST']=True
+    config['INTERNAL_SMARTHOST']='True'
     agent.write_envfile('config.env', config)
