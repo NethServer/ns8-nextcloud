@@ -5,10 +5,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-import json
-import sys
 import agent
+import json
 import subprocess
+import sys
 
 def occget(args):
     cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
@@ -16,13 +16,12 @@ def occget(args):
     return (p.stdout.decode()[:-1])
 
 smarthost = agent.read_envfile("smarthost.env")
-configenv = agent.read_envfile("config.env")
 
 with open('config.json', 'r') as cf:
-    configjson = json.loads(cf.read())
+    config = json.loads(cf.read())
 
 # Exit if internal smarthost is already set
-if 'INTERNAL_SMARTHOST' in configenv:
+if "internal_smarthost" in config:
     sys.exit(0)
 
 # Get the smtphost via occ
@@ -36,14 +35,10 @@ else:
 
 # Compare occ with smarthost settings and set the internal_smarthost variable accordingly
 if smtphost == smtpsmarthost:
-    configenv['INTERNAL_SMARTHOST']='False'
-    configjson["internal_smarthost"] = False
-    agent.write_envfile('config.env', configenv)
+    config["internal_smarthost"] = False
 else:
-    configenv['INTERNAL_SMARTHOST']='True'
-    configjson["internal_smarthost"] = True
-    agent.write_envfile('config.env', configenv)
+    config["internal_smarthost"] = True
 
 # Write config.json
 with open('config.json', 'w') as cfp:
-    cfp.write(json.dumps(configjson))
+    cfp.write(json.dumps(config))

@@ -6,6 +6,7 @@
 #
 
 import agent
+import json
 import subprocess
 
 def occ(args):
@@ -19,12 +20,13 @@ def occget(args):
     return (p.stdout.decode()[:-1])
 
 smarthost= agent.read_envfile("smarthost.env")
-config= agent.read_envfile("config.env")
 smtphost= occget(["config:system:get","mail_smtphost"])
 
+with open('config.json', 'r') as cf:
+    config = json.loads(cf.read())
+
 # Remove mail configuration when smarthost is disabled
-if 'SMTP_HOST' not in smarthost and config.get('INTERNAL_SMARTHOST') == 'False' and smtphost:
-    print("Delete via occ")
+if 'SMTP_HOST' not in smarthost and config['internal_smarthost'] == False and smtphost:
     occ(["config:system:delete","mail_from_address"])
     occ(["config:system:delete","mail_smtpmode"])
     occ(["config:system:delete","mail_sendmailmode"])
@@ -39,7 +41,7 @@ if 'SMTP_HOST' not in smarthost and config.get('INTERNAL_SMARTHOST') == 'False' 
     occ(["config:system:delete","mail_smtpstreamoptions"])
 
 # smarthost is configured
-if 'SMTP_HOST' in smarthost and config.get('INTERNAL_SMARTHOST') == 'False':
+if 'SMTP_HOST' in smarthost and config['internal_smarthost'] == False:
     # verify if smarthost verify tls certificate
     if smarthost.get('SMTP_SECURE') == 'none' or smarthost.get('SMTP_TLS_VERIFY') == 'False':
         occ(["config:system:set","mail_smtpstreamoptions","ssl","allow_self_signed","--value=true", "--type=boolean"])
