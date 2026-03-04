@@ -13,7 +13,7 @@ import sys
 def occget(args):
     cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
     p = subprocess.run(cmd + args, capture_output=True)
-    return (p.stdout.decode()[:-1])
+    return (p.stdout.decode().rstrip())
 
 smarthost = agent.read_envfile("smarthost.env")
 
