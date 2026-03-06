@@ -1,4 +1,4 @@
-FROM docker.io/library/nextcloud:32.0.1-fpm-alpine
+FROM docker.io/library/nextcloud:32.0.6-fpm-alpine
 
 RUN set -ex; \
     \
