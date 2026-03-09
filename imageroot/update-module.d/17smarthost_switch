@@ -15,14 +15,14 @@ def occget(args):
     p = subprocess.run(cmd + args, capture_output=True)
     return (p.stdout.decode().rstrip())
 
-smarthost = agent.read_envfile("smarthost.env")
-
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
 
 # Exit if internal smarthost is already set
 if "internal_smarthost" in config:
     sys.exit(0)
+
+smarthost = agent.read_envfile("smarthost.env")
 
 # Get the smtphost via occ
 smtphost = occget(["config:system:get","mail_smtphost"])

@@ -20,8 +20,6 @@ envfile = "smarthost.env"
 with open('config.json', 'r') as cf:
     config = json.loads(cf.read())
 
-# Using .tmp suffix: do not overwrite the target file until the new one is
-# saved to disk:
 if not smtp_settings['host'] or config['internal_smarthost'] == True:
     f = open(envfile, "w")
     f.write("")
@@ -30,7 +28,7 @@ if not smtp_settings['host'] or config['internal_smarthost'] == True:
 
 domain = config['host'].split('.',1)[1]
 
-with open(envfile + ".tmp", "w") as efp:
+with agent.safe_open(envfile) as efp:
     print(f"SMTP_HOST={smtp_settings['host']}", file=efp)
     print(f"SMTP_PORT={smtp_settings['port']}", file=efp)
     print(f"MAIL_DOMAIN={domain}", file=efp)
@@ -44,6 +42,3 @@ with open(envfile + ".tmp", "w") as efp:
         print("SMTP_AUTHTYPE=LOGIN", file=efp)
     else:
         print("SMTP_AUTHTYPE=PLAIN", file=efp)
-
-# Commit changes by replacing the existing envfile:
-os.replace(envfile + ".tmp", envfile)
