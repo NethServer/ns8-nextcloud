@@ -111,6 +111,20 @@
               ref="domain"
             >
             </NsComboBox>
+            <NsToggle
+              value="internalSmarthost"
+              :label="$t('settings.internal_smarthost')"
+              v-model="internalSmarthost"
+              :disabled="loadingUi"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </NsToggle>
             <template v-if="is_collabora && installed">
               <NsComboBox
                 v-model.trim="collabora_host"
@@ -241,6 +255,7 @@ export default {
       host: "",
       isLetsEncryptEnabled: false,
       isLetsEncryptCurrentlyEnabled: false,
+      internalSmarthost: false,
       collabora_host: "",
       domain: "",
       password: "Nethesis,1234",
@@ -490,6 +505,7 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             domain: this.domain === "-" ? "" : this.domain,
+            internal_smarthost: this.internalSmarthost,
             is_collabora: this.is_collabora,
             collabora_host: this.collabora_host,
             tls_verify_collabora: this.tls_verify_collabora,
@@ -521,6 +537,7 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isLetsEncryptCurrentlyEnabled = config.lets_encrypt;
+      this.internalSmarthost = config.internal_smarthost;
       this.running = config.running;
       this.installed = config.installed;
       this.is_collabora = config.is_collabora;

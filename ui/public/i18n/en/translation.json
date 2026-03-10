@@ -46,7 +46,8 @@
         "host_placeholder": "E.g. mynextcloud.example.org",
         "admin_password_tooltip": "The user 'admin' is the internal administrator of Nextcloud. This password is used to authenticate the 'admin' user in the Nextcloud web interface.",
         "host_pattern": "Must be a valid fully qualified domain name",
-        "host_format": "Must be a valid fully qualified domain name"
+        "host_format": "Must be a valid fully qualified domain name",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "about": {
         "title": "About"

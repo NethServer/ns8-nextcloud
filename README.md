@@ -27,6 +27,7 @@ Then launch `configure-module`, by setting the following parameters:
 - fully qualified domain name for Nextcloud
 - let's encrypt option
 - LDAP domain (optional)
+- use internal Nextcloud mail sending settings or the cluster smarthost
 
 Example:
 ```
@@ -35,7 +36,8 @@ api-cli run module/nextcloud1/configure-module --data - <<EOF
     "host": "nextcloud.nethserver.org",
     "lets_encrypt": true,
     "domain": "ad.nethserver.org",
-    "password": "Nethesis,1234"
+    "password": "Nethesis,1234",
+    "internal_smarthost": false
 }
 EOF
 ```

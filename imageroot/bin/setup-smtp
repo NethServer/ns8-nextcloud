@@ -6,6 +6,7 @@
 #
 
 import agent
+import json
 import subprocess
 
 def occ(args):
@@ -13,13 +14,36 @@ def occ(args):
     p = subprocess.run(cmd + args, capture_output=True)
     return (p.returncode, p.stdout)
 
+def occget(args):
+    cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
+    p = subprocess.run(cmd + args, capture_output=True)
+    return (p.stdout.decode().rstrip())
+
 smarthost= agent.read_envfile("smarthost.env")
+smtphost= occget(["config:system:get","mail_smtphost"])
+
+with open('config.json', 'r') as cf:
+    config = json.loads(cf.read())
+
+# Remove mail configuration when smarthost is disabled
+if 'SMTP_HOST' not in smarthost and config['internal_smarthost'] == False and smtphost:
+    occ(["config:system:delete","mail_from_address"])
+    occ(["config:system:delete","mail_smtpmode"])
+    occ(["config:system:delete","mail_sendmailmode"])
+    occ(["config:system:delete","mail_domain"])
+    occ(["config:system:delete","mail_smtphost"])
+    occ(["config:system:delete","mail_smtpauth"])
+    occ(["config:system:delete","mail_smtpport"])
+    occ(["config:system:delete","mail_smtpname"])
+    occ(["config:system:delete","mail_smtppassword"])
+    occ(["config:system:delete","mail_smtpsecure"])
+    occ(["config:system:delete","mail_smtpauthtype"])
+    occ(["config:system:delete","mail_smtpstreamoptions"])
+
 # smarthost is configured
-if 'SMTP_HOST' in smarthost:
+if 'SMTP_HOST' in smarthost and config['internal_smarthost'] == False:
     # verify if smarthost verify tls certificate
     if smarthost.get('SMTP_SECURE') == 'none' or smarthost.get('SMTP_TLS_VERIFY') == 'False':
         occ(["config:system:set","mail_smtpstreamoptions","ssl","allow_self_signed","--value=true", "--type=boolean"])
         occ(["config:system:set","mail_smtpstreamoptions","ssl","verify_peer","--value=false","--type=boolean"])
         occ(["config:system:set","mail_smtpstreamoptions","ssl","verify_peer_name","--value=false","--type=boolean"])
-    else:
-        occ(["config:system:delete","mail_smtpstreamoptions","ssl"])
