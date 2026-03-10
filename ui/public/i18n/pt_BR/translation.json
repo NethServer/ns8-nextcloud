@@ -42,7 +42,8 @@
         "collabora_host_tooltip": "Collabora Online Development Edition (CODE) is a self-hostable LibreOffice Online server. It allows you to edit office documents in a web browser.",
         "admin_password_tooltip": "The user 'admin' is the internal administrator of Nextcloud. This password is used to authenticate the 'admin' user in the Nextcloud web interface.",
         "host_placeholder": "E.g. mynextcloud.example.org",
-        "host_string_gte": "The host name can't be empty"
+        "host_string_gte": "The host name can't be empty",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "common": {
         "required": "Required",

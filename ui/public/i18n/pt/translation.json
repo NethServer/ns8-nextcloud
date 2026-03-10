@@ -46,7 +46,8 @@
         "no_user_domain": "Nextcloud internal user database",
         "host": "Host name",
         "configuring": "Configuration in progress...",
-        "host_placeholder": "E.g. mynextcloud.example.org"
+        "host_placeholder": "E.g. mynextcloud.example.org",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "error": {
         "401": "Invalid authentication",

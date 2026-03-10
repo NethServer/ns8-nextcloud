@@ -42,7 +42,8 @@
         "host_pattern": "Must be a valid fully qualified domain name",
         "title": "Settings",
         "choose_ldap_domain": "Виберіть домен користувача",
-        "no_user_domain": "Внутрішня база даних користувачів Nextcloud"
+        "no_user_domain": "Внутрішня база даних користувачів Nextcloud",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "about": {
         "title": "About"
