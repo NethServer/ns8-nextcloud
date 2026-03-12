@@ -110,7 +110,7 @@
               tooltipDirection="top"
               ref="domain"
             >
-            </NsComboBox>            
+            </NsComboBox>
             <template v-if="is_collabora && installed">
               <NsComboBox
                 v-model.trim="collabora_host"
