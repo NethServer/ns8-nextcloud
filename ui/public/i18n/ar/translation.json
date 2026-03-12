@@ -26,7 +26,8 @@
         "host_placeholder": "مثلاً: mynextcloud.example.org",
         "admin_password_tooltip": "المستخدم \"admin\" هو المشرف الداخلي لنكست كلاود. يتم استخدام كلمة المرور هذه لمصادقة المستخدم \"المشرف admin\" في واجهة ويب نكست كلاود.",
         "host_pattern": "يجب أن يكون اسم (domain) صالحًا ومؤهلًا بالكامل",
-        "host_format": "يجب أن يكون اسم (domain) صالحًا ومؤهلًا بالكامل"
+        "host_format": "يجب أن يكون اسم (domain) صالحًا ومؤهلًا بالكامل",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "error": {
         "403": "العملية غير مصرح بها",

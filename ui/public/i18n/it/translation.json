@@ -60,7 +60,8 @@
         "host_placeholder": "E.g. mynextcloud.example.org",
         "choose_ldap_domain": "Selezionare un utente di dominio",
         "no_user_domain": "Database utenti interno di Nextcloud",
-        "admin_password_tooltip": "L'utente 'admin' è l'amministratore interno di Nextcloud. Questa password viene utilizzata per autenticare 'admin' utente nell'interfaccia web di Nextcloud."
+        "admin_password_tooltip": "L'utente 'admin' è l'amministratore interno di Nextcloud. Questa password viene utilizzata per autenticare 'admin' utente nell'interfaccia web di Nextcloud.",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "action": {
         "configure-module": "Configura modulo",

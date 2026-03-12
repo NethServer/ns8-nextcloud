@@ -46,7 +46,8 @@
         "choose_ldap_domain": "Benutzerdomäne auswählen",
         "admin_password_tooltip": "Der Benutzer 'admin' ist der interne Benutzer von Nextcloud. Das Kennwort wird zur Anmeldung im Nextcloud Web-Intrerface verwendet.",
         "host_pattern": "Voll-qualifizierter Domänen-Name (FQDN) erforderlich",
-        "host_format": "Voll-qualifizierter Domänen-Name (FQDN) erforderlich"
+        "host_format": "Voll-qualifizierter Domänen-Name (FQDN) erforderlich",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "about": {
         "title": "Über"
