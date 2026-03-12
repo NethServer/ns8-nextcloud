@@ -110,21 +110,7 @@
               tooltipDirection="top"
               ref="domain"
             >
-            </NsComboBox>
-            <NsToggle
-              value="internalSmarthost"
-              :label="$t('settings.internal_smarthost')"
-              v-model="internalSmarthost"
-              :disabled="loadingUi"
-              class="mg-bottom"
-            >
-              <template slot="text-left">{{
-                $t("settings.disabled")
-              }}</template>
-              <template slot="text-right">{{
-                $t("settings.enabled")
-              }}</template>
-            </NsToggle>
+            </NsComboBox>            
             <template v-if="is_collabora && installed">
               <NsComboBox
                 v-model.trim="collabora_host"
@@ -162,6 +148,20 @@
                 }}</template>
               </cv-toggle>
             </template>
+            <NsToggle
+              value="internalSmarthost"
+              :label="$t('settings.internal_smarthost')"
+              v-model="internalSmarthost"
+              :disabled="loadingUi"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </NsToggle>
             <cv-row v-if="error.getStatus">
               <cv-column>
                 <NsInlineNotification
