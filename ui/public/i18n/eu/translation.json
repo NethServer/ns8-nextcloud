@@ -46,7 +46,8 @@
         "instance_configuration": "Configure {instance}",
         "host_string_gte": "The host name can't be empty",
         "admin_password_tooltip": "The user 'admin' is the internal administrator of Nextcloud. This password is used to authenticate the 'admin' user in the Nextcloud web interface.",
-        "host_placeholder": "E.g. mynextcloud.example.org"
+        "host_placeholder": "E.g. mynextcloud.example.org",
+        "internal_smarthost": "Manage email sending from Nextcloud admin panel"
     },
     "error": {
         "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
