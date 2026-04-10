@@ -1,5 +1,11 @@
 FROM docker.io/library/nextcloud:32.0.6-fpm
 
+# Match Alpine's www-data uid/gid (82) for backward compatibility
+RUN set -ex; \
+    groupmod -g 82 www-data; \
+    usermod -u 82 www-data; \
+    chown --from=33:33 -R -c www-data:www-data /var /etc /usr /home
+
 RUN set -ex; \
     \
     apt-get update; \
