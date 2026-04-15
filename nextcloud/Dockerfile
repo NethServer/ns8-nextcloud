@@ -60,5 +60,6 @@ COPY supervisord.conf /
 COPY ns.config.php /usr/src/nextcloud/config/
 
 ENV NEXTCLOUD_UPDATE=1
+ENV MALLOC_CHECK_=3
 
 CMD ["/usr/bin/supervisord", "-c", "/supervisord.conf"]
