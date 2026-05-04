@@ -6,7 +6,6 @@
 #
 
 import sys
-import json
 import time
 import subprocess
 
@@ -21,11 +20,14 @@ i = 0
 while i < max_tries:
     i = i+1
     try:
-        ret, out = occ(["status", "--output", "json"])
-        status = json.loads(out)
-        if status["installed"]:
+        ret, out = occ(["status", "-e"])
+        if ret == 0:
             break
-        print(f"wait-startup: waiting for nextcloud-app ({i})", file=sys.stderr)
-        time.sleep(1)
+        status_msg = {1: "maintenance mode enabled", 2: "needs DB upgrade"}.get(ret, "not ready")
+        print(f"wait-startup: waiting for nextcloud-app ({i}): occ status exit code={ret} ({status_msg})", file=sys.stderr)
     except Exception as e:
-        continue
+        print(f"wait-startup: exception ({i}): {e}", file=sys.stderr)
+    time.sleep(1)
+else:
+    print("wait-startup: Nextcloud did not become ready in time", file=sys.stderr)
+    sys.exit(1)
