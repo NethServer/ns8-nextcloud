@@ -17,6 +17,9 @@ def occ(args):
 # wait after nextcloud-app is ready
 exit_code_messages = {1: "maintenance mode enabled", 2: "needs DB upgrade"}
 max_tries = 60
+# require several consecutive successful checks to confirm readiness
+success_needed = 5
+success_count = 0
 i = 0
 last_ret = None
 while i < max_tries:
@@ -25,10 +28,16 @@ while i < max_tries:
         ret, out = occ(["status", "-e"])
         last_ret = ret
         if ret == 0:
-            break
-        status_msg = exit_code_messages.get(ret, "not ready")
-        print(f"wait-startup: waiting for nextcloud-app ({i}): occ status exit code={ret} ({status_msg})", file=sys.stderr)
+            success_count += 1
+            print(f"wait-startup: occ status returned OK ({success_count}/{success_needed})", file=sys.stderr)
+            if success_count >= success_needed:
+                break
+        else:
+            success_count = 0
+            status_msg = exit_code_messages.get(ret, "not ready")
+            print(f"wait-startup: waiting for nextcloud-app ({i}): occ status exit code={ret} ({status_msg})", file=sys.stderr)
     except Exception as e:
+        success_count = 0
         print(f"wait-startup: exception ({i}): {e}", file=sys.stderr)
     time.sleep(1)
 else:
