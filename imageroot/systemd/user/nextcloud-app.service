@@ -8,7 +8,7 @@ After=nextcloud.service
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
 Restart=always
-TimeoutStopSec=70
+TimeoutStopSec=90
 ExecStartPre=/bin/rm -f %t/nextcloud-app.pid %t/nextcloud-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStartPost=runagent wait-startup
