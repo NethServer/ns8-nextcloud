@@ -27,6 +27,5 @@ while i < max_tries:
             break
         print(f"wait-startup: waiting for nextcloud-app ({i})", file=sys.stderr)
     except Exception as e:
-        print(f"Exception wait-startup: waiting for nextcloud-app ({i}): {e}", file=sys.stderr)
         continue
     time.sleep(1)
