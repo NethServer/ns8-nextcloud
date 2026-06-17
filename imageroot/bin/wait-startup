@@ -24,7 +24,7 @@ while i < max_tries:
         print(f"wait-startup: waiting for nextcloud-app ({i})", file=sys.stderr)
         ret, out = occ(["status", "--output", "json"])
         status = json.loads(out)
-        if status["installed"] and not status['maintenance'] and not status['needsDbUpgrade']:
+        if status["installed"]:
             break
     except Exception as e:
         continue
