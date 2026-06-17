@@ -67,6 +67,11 @@ if status.get('needsDbUpgrade'):
         if is_upgrade_running():
             print("occ-update: occ upgrade is already running inside the container, skipping", file=sys.stderr)
             sys.exit(0)
+        if status.get('maintenance'):
+            # occ upgrade refuses to run if maintenance mode is already set externally.
+            # Turn it off first so the upgrade can proceed.
+            print("occ-update: turning off maintenance mode before manual upgrade", file=sys.stderr)
+            run_occ('maintenance:mode', '--off')
         try:
             run_occ('upgrade')
         except Exception:
