@@ -2,7 +2,7 @@
 [Unit]
 Description=Podman nextcloud-app.service
 BindsTo=nextcloud.service
-After=nextcloud.service
+After=nextcloud.service nextcloud-db.service nextcloud-redis.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
