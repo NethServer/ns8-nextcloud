@@ -11,7 +11,7 @@ TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/nextcloud-db.pid %t/nextcloud-db.ctr-id
 ExecStartPre=/bin/mkdir -p %S/state/restore/
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/nextcloud-db.pid --cidfile %t/nextcloud-db.ctr-id --cgroups=no-conmon --pod-id-file %t/nextcloud.pod-id --replace -d --name nextcloud-db --env-file=%S/state/database.env  -v nextcloud-db-data:/var/lib/mysql -v %S/state/restore/:/docker-entrypoint-initdb.d/:z ${MARIADB_IMAGE}
-ExecStartPost=runagent wait-db
+ExecStartPost=/bin/bash -c "until /usr/bin/podman exec nextcloud-db mariadb-admin ping -uroot -p$$MARIADB_ROOT_PASSWORD --silent --protocol=tcp --port=3306 2>/dev/null; do sleep 1; done"
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/nextcloud-db.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/nextcloud-db.ctr-id
 PIDFile=%t/nextcloud-db.pid

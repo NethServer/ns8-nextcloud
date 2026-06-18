@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/bash
 
 #
 # Copyright (C) 2026 Nethesis S.r.l.
@@ -6,36 +6,10 @@
 #
 
 #
-# If Nextcloud is in maintenance mode after startup, run occ-update automatically.
-# This handles the case where a new image was deployed and DB migrations are pending.
+# Wait for the Nextcloud Docker image entrypoint to complete initialization or upgrade.
+# The entrypoint holds nextcloud-init-sync.lock while running occ upgrade.
+# Acquiring the lock means the entrypoint has finished.
 #
 
-import os
-import sys
-import json
-import subprocess
-import agent
-
-def occ_status():
-    cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ', 'status', '--output', 'json']
-    p = subprocess.run(cmd, capture_output=True)
-    return json.loads(p.stdout)
-
-try:
-    status = occ_status()
-except Exception as ex:
-    print(f"occ_upgrade_if_maintenance: cannot read occ status: {ex}", file=sys.stderr)
-    sys.exit(0)
-
-if not (status.get("maintenance") or status.get("needsDbUpgrade")):
-    sys.exit(0)
-
-print("occ_upgrade_if_maintenance: maintenance mode or pending upgrade detected, running occ-update", file=sys.stderr)
-retval = agent.tasks.run(
-    agent_id=os.environ['AGENT_ID'],
-    action='occ-update',
-    data={}
-)
-if retval['exit_code'] != 0:
-    print("occ_upgrade_if_maintenance: occ-update failed", file=sys.stderr)
-    sys.exit(1)
+sleep 5 # prevent fast race with entrypoint.sh
+podman exec nextcloud-app flock nextcloud-init-sync.lock true || true
