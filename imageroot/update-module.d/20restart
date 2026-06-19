@@ -20,4 +20,6 @@
 # along with NethServer.  If not, see COPYING.
 #
 
-systemctl --user restart nextcloud
+systemctl --user try-restart nextcloud.service nextcloud-redis.service nextcloud-db.service nextcloud-app.service nextcloud-nginx.service nextcloud-notify_push.service
+echo "20restart: waiting for nextcloud-app entrypoint to complete (nextcloud-init-sync.lock)" >&2
+podman exec nextcloud-app flock nextcloud-init-sync.lock true || true # wait occ upgrade
