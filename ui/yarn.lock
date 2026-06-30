@@ -1444,8 +1444,8 @@ __metadata:
   linkType: hard
 
 "@nethserver/ns8-ui-lib@npm:^1.12.2":
-  version: 1.12.3
-  resolution: "@nethserver/ns8-ui-lib@npm:1.12.3"
+  version: 1.12.4
+  resolution: "@nethserver/ns8-ui-lib@npm:1.12.4"
   dependencies:
     "@rollup/plugin-json": "npm:^4.1.0"
     core-js: "npm:^3.15.2"
@@ -1454,7 +1454,7 @@ __metadata:
     vue-date-fns: "npm:^2.0.1"
   peerDependencies:
     vue: ^2.6.12
-  checksum: 10c0/73acfed754780d466cbc73e089265bb8f117597bb486e2dab55b3c6488987eac0b987c99c12307aaf59d745c2c70c9091c33acfc5d4b795cd5194fc3948c1f2e
+  checksum: 10c0/dfd6475dbf462280ca43002ef504f95e21bc5f842312020e79cfc1e7f1e7389cbcbef290c70376aa37876cd89f37a9fe3cceaf0e645df7ff7420573740d3f5dd
   languageName: node
   linkType: hard
 
@@ -2999,14 +2999,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.32.0":
-  version: 0.32.0
-  resolution: "axios@npm:0.32.0"
+"axios@npm:^0.33.0":
+  version: 0.33.0
+  resolution: "axios@npm:0.33.0"
   dependencies:
     follow-redirects: "npm:^1.15.4"
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/b4fe7ef169120aa8a6995c2d8301a0ef7d50eddbedc202ce23e6d6d9b349a7406bd40e7a38ba5f79b5b63b299b782fc219fd49bd473d07f024244243500cc94e
+  checksum: 10c0/9e8ae9d26768a9884c121c33286f6b85fe915cf1bb1c0ac7adff2def81e18b4b7c5bb9630dec3900ec88c037822d602439f2bff23d15c41c2216b89b27fbe524
   languageName: node
   linkType: hard
 
@@ -11609,7 +11609,7 @@ __metadata:
     "@vue/cli-service": "npm:~4.5.0"
     "@vue/eslint-config-prettier": "npm:^6.0.0"
     await-to-js: "npm:^3.0.0"
-    axios: "npm:^0.32.0"
+    axios: "npm:^0.33.0"
     carbon-components: "npm:^10.41.0"
     core-js: "npm:^3.6.5"
     eslint: "npm:^6.7.2"
