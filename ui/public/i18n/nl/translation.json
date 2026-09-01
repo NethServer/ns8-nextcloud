@@ -1,0 +1,78 @@
+{
+    "error": {
+        "403": "Bewerking niet toegestaan",
+        "cannot_retrieve_installed_modules": "Kan geïnstalleerde modules niet ophalen",
+        "401": "Ongeldige authenticatie",
+        "cannot_retrieve_module_info": "Kan module-informatie niet ophalen",
+        "generic_error": "Er is iets misgegaan",
+        "cannot_retrieve_configuration": "Kan configuratie niet ophalen",
+        "error": "Fout",
+        "network_timeout": "Netwerktime-out",
+        "password_invalid_chars": "Het wachtwoord mag geen spaties bevatten en ook niet de volgende tekens: ' \" =",
+        "404": "Bron niet gevonden",
+        "network_error": "Netwerkfout",
+        "validation_error": "Validatiefout"
+    },
+    "settings": {
+        "collabora_host_tooltip": "Collabora Online Development Edition (CODE) is een zelf te hosten LibreOffice Online-server. Hiermee kun je officedocumenten bewerken in een webbrowser.",
+        "configuring": "Configuratie wordt uitgevoerd...",
+        "host": "Hostnaam",
+        "disabled": "Uitgeschakeld",
+        "instance_configuration": "{instance} configureren",
+        "admin_password_tooltip": "De gebruiker 'admin' is de interne beheerder van Nextcloud. Dit wachtwoord wordt gebruikt om de gebruiker 'admin' te authenticeren in de Nextcloud-webinterface.",
+        "host_placeholder": "B.v. mynextcloud.example.org",
+        "host_string_gte": "De hostnaam mag niet leeg zijn",
+        "configure_nextcloud": "Nextcloud configureren",
+        "collabora_placeholder": "Selecteer een collabora-server of laat leeg om uit te schakelen",
+        "internal_smarthost": "Beheer het verzenden van e-mail vanuit het Nextcloud-beheerpaneel",
+        "admin_password": "Wachtwoord voor gebruiker 'admin'",
+        "lets_encrypt": "Let's Encrypt-certificaat",
+        "host_invalid_type": "Ongeldige hostnaam",
+        "host_format": "Moet een geldige fully qualified domain name zijn",
+        "save": "Opslaan",
+        "tls_verify_collabora": "TLS-certificaat verifiëren",
+        "enabled": "Ingeschakeld",
+        "collabora_host": "Hostnaam van CODE-server",
+        "domain": "Gebruikersdomein",
+        "host_pattern": "Moet een geldige fully qualified domain name zijn",
+        "title": "Instellingen",
+        "choose_ldap_domain": "Selecteer een gebruikersdomein",
+        "no_user_domain": "Interne gebruikersdatabase van Nextcloud"
+    },
+    "status": {
+        "nextcloud_webapp": "Nextcloud-webapp",
+        "created": "Aangemaakt",
+        "size": "Grootte",
+        "name": "Naam",
+        "no_images": "Geen images",
+        "app_volumes": "App-volume | App-volumes",
+        "services": "Service | Services",
+        "app_images": "App-image | App-images",
+        "open_nextcloud_webapp": "Nextcloud openen",
+        "no_services": "Geen services",
+        "configure": "Configureren",
+        "app_instance": "App-instance",
+        "mount": "Mount",
+        "title": "Status",
+        "not_configured": "Niet geconfigureerd",
+        "installation_node": "Installatienode",
+        "node": "Node",
+        "no_volumes": "Geen volumes"
+    },
+    "common": {
+        "required": "Verplicht",
+        "work_in_progress": "In uitvoering"
+    },
+    "about": {
+        "title": "Over"
+    },
+    "action": {
+        "get-module-info": "Module-informatie ophalen",
+        "get-status": "Status ophalen",
+        "configure-module": "Module configureren",
+        "get-configuration": "Configuratie ophalen"
+    },
+    "task": {
+        "cannot_create_task": "Kan taak {action} niet aanmaken"
+    }
+}
