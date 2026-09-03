@@ -2,6 +2,7 @@
 [Unit]
 Description=Podman nextcloud-app.service
 BindsTo=nextcloud.service
+Requires=nextcloud-db.service nextcloud-redis.service
 After=nextcloud.service nextcloud-db.service nextcloud-redis.service
 
 [Service]
