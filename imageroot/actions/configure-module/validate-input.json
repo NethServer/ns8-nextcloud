@@ -10,12 +10,14 @@
       "domain": "ad.myhost.local",
       "collabora_host":"collabora.nethserver.org",
       "tls_verify_collabora": true,
-      "password": "Nethesis,1234"
+      "password": "Nethesis,1234",
+      "internal_smarthost": false
     }
   ],
   "type": "object",
   "required": [
-    "host"
+    "host",
+    "internal_smarthost"
   ],
   "properties": {
     "host": {
@@ -44,6 +46,11 @@
       "type": "boolean",
       "title": "Verify the certificate of collabora",
       "description": "Request a valid certificate for collabora."
+    },
+    "internal_smarthost": {
+      "type": "boolean",
+      "title": "Internal smarthost",
+      "description": "If true, email sending is managed from the Nextcloud admin panel. If false, the cluster smarthost settings are applied, and Nextcloud SMTP server settings are removed when no cluster smarthost is configured."
     },
     "password": {
       "description": "Password for admin user. Default is 'Nethesis,1234'",
