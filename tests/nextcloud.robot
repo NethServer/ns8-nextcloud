@@ -4,6 +4,8 @@ Library    SSHLibrary
 *** Variables ***
 ${ADMIN_USER}    admin
 ${ADMIN_PASSWORD}    Nethesis,1234
+${SCENARIO}    install
+${nc_url}    https://127.0.0.1
 
 *** Keywords ***
 Login to cluster-admin
@@ -19,9 +21,22 @@ Ping nextcloud
     ...    return_rc=True  return_stdout=True  return_stderr=True
     Should Be Equal As Integers    ${rc}  0
 
+Nextcloud is up to date
+    ${out} =    Execute Command    runagent -m ${module_id} occ status --output=json
+    &{status} =    Evaluate    json.loads($out)    modules=json
+    Should Be True    ${status.installed}
+    Should Not Be True    ${status.maintenance}
+    Should Not Be True    ${status.needsDbUpgrade}
+
+Read the file of u1
+    ${out} =    Execute Command    curl -sk -f -u u1:${u1_password} -H "Host: nextcloud.dom.test" ${nc_url}/remote.php/dav/files/u1/upgrade.txt
+    Should Be Equal    ${out}    upgrade-test-${module_id}
+
 *** Test Cases ***
 Check if nextcloud is installed correctly
-    ${output}  ${rc} =    Execute Command    add-module ${IMAGE_URL} 1
+    # The update scenario starts from the NS8 stable release, then upgrades it below
+    ${image} =    Set Variable If    '${SCENARIO}' == 'update'    nextcloud    ${IMAGE_URL}
+    ${output}  ${rc} =    Execute Command    add-module ${image} 1
     ...    return_rc=True
     Should Be Equal As Integers    ${rc}  0
     &{output} =    Evaluate    ${output}
@@ -50,6 +65,44 @@ Check if nextcloud can be configured
 
 Check if nextcloud works as expected
     Wait Until Keyword Succeeds    60 times    10 seconds    Ping nextcloud
+
+Create user u1 with a file
+    # Nextcloud rejects well-known passwords, and the occ wrapper does not pass the environment
+    ${password} =    Evaluate    "Ct-" + secrets.token_hex(8)    modules=secrets
+    Set Suite Variable    ${u1_password}    ${password}
+    ${rc} =    Execute Command    runagent -m ${module_id} podman exec -e OC_PASS=${u1_password} --user www-data nextcloud-app php ./occ user:add --password-from-env --display-name="First User" u1
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+    ${code} =    Execute Command    echo upgrade-test-${module_id} > /tmp/nc-upgrade.txt; curl -sk -o /dev/null -w "\%{http_code}" -u u1:${u1_password} -H "Host: nextcloud.dom.test" -T /tmp/nc-upgrade.txt ${nc_url}/remote.php/dav/files/u1/upgrade.txt
+    Should Be Equal    ${code}    201
+    Read the file of u1
+
+Update nextcloud to the image under test
+    Skip If    '${SCENARIO}' != 'update'    scenario is ${SCENARIO}, nothing to update
+    ${rc} =    Execute Command
+    ...    api-cli run update-module --data '{"force":true,"module_url":"${IMAGE_URL}","instances":["${module_id}"]}'
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+
+Check the database migration completed
+    Skip If    '${SCENARIO}' != 'update'    scenario is ${SCENARIO}, nothing to update
+    Wait Until Keyword Succeeds    30 times    10 seconds    Nextcloud is up to date
+
+Check the configuration survives the update
+    Skip If    '${SCENARIO}' != 'update'    scenario is ${SCENARIO}, nothing to update
+    ${out} =    Execute Command    api-cli run module/${module_id}/get-configuration
+    &{config} =    Evaluate    json.loads($out)    modules=json
+    Should Be Equal    ${config.host}    nextcloud.dom.test
+    Should Be True    ${config.installed}
+    Should Be True    ${config.running}
+
+Check u1 and its file survive the update
+    Skip If    '${SCENARIO}' != 'update'    scenario is ${SCENARIO}, nothing to update
+    Wait Until Keyword Succeeds    60 times    10 seconds    Ping nextcloud
+    ${rc} =    Execute Command    runagent -m ${module_id} occ user:info u1
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+    Wait Until Keyword Succeeds    10 times    10 seconds    Read the file of u1
 
 Check if nextcloud is removed correctly
     ${rc} =    Execute Command    remove-module --no-preserve ${module_id}
