@@ -27,7 +27,11 @@ Then launch `configure-module`, by setting the following parameters:
 - fully qualified domain name for Nextcloud
 - let's encrypt option
 - LDAP domain (optional)
-- use internal Nextcloud mail sending settings or the cluster smarthost
+- `internal_smarthost` (required): `true` to manage email sending from
+  the Nextcloud admin panel, `false` to apply the cluster smarthost
+  settings every time the `nextcloud-app` service starts. With `false`
+  and no cluster smarthost configured, the module removes the SMTP
+  server settings entered in the Nextcloud admin panel.
 
 Example:
 ```
