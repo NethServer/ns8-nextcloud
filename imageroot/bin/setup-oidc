@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+#
+# Configure the OIDC login of Nextcloud (NethServer/dev#8080), from the
+# oidc.env file of the module state. The settings are written manually
+# for now: without them, the user_oidc app is disabled.
+#
+
+import subprocess
+import sys
+
+import agent
+
+def occ(args):
+    cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
+    p = subprocess.run(cmd + args, capture_output=True)
+    return (p.returncode, p.stdout)
+
+def read_oidc_settings():
+    try:
+        oidc = agent.read_envfile("oidc.env")
+    except FileNotFoundError:
+        return None
+    if oidc.get("OIDC_ISSUER") and oidc.get("OIDC_CLIENT_ID") and oidc.get("OIDC_CLIENT_SECRET"):
+        return oidc
+    return None
+
+oidc = read_oidc_settings()
+if oidc is None:
+    occ(["app:disable", "user_oidc"])
+    sys.exit(0)
+
+# user_oidc is not bundled with Nextcloud: install it from the app
+# store the first time
+if occ(["app:enable", "user_oidc"])[0] != 0:
+    ret, out = occ(["app:install", "user_oidc"])
+    if ret != 0:
+        print(agent.SD_ERR + "setup-oidc: cannot install the user_oidc app:", out.decode(errors="replace"), file=sys.stderr)
+        sys.exit(1)
+
+# The ldap_uuid claim is the user ID of user_ldap: OIDC logins map to the
+# existing LDAP accounts, and no other account is created
+ret, out = occ(["user_oidc:provider", oidc.get("OIDC_PROVIDER_NAME") or "Single Sign-On",
+    "--clientid=" + oidc["OIDC_CLIENT_ID"],
+    "--clientsecret=" + oidc["OIDC_CLIENT_SECRET"],
+    "--discoveryuri=" + oidc["OIDC_ISSUER"].rstrip("/") + "/.well-known/openid-configuration",
+    "--scope=openid email profile",
+    "--unique-uid=0",
+    "--mapping-uid=ldap_uuid",
+    "--mapping-display-name=name",
+    "--mapping-email=email",
+])
+if ret != 0:
+    print(agent.SD_ERR + "setup-oidc: cannot configure the OIDC provider:", out.decode(errors="replace"), file=sys.stderr)
+    sys.exit(1)
+occ(["config:system:set", "user_oidc", "auto_provision", "--type=boolean", "--value=false"])
+# Go straight to the identity provider, without the password form
+occ(["config:app:set", "user_oidc", "allow_multiple_user_backends",
+    "--value=" + ("0" if oidc.get("OIDC_LOGIN_REDIRECT") == "1" else "1")])
+
+print("setup-oidc: configuration completed", file=sys.stderr)
