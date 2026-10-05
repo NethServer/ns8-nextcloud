@@ -8,9 +8,11 @@
 #
 # Configure the OIDC login of Nextcloud (NethServer/dev#8080), from the
 # oidc.env file of the module state. The settings are written manually
-# for now: without them, the user_oidc app is disabled.
+# for now: without them, the user_oidc app is disabled. Settings that
+# are not secret, like OIDC_LOGIN_MODE, are in the module environment.
 #
 
+import os
 import subprocess
 import sys
 
@@ -20,6 +22,15 @@ def occ(args):
     cmd = ['podman', 'exec', '--user', 'www-data', 'nextcloud-app', 'php', './occ']
     p = subprocess.run(cmd + args, capture_output=True)
     return (p.returncode, p.stdout)
+
+def login_mode():
+    """optional: the login page shows the password form and the SSO
+    button. exclusive: it goes straight to the identity provider."""
+    mode = os.getenv("OIDC_LOGIN_MODE") or "optional"
+    if mode not in ("optional", "exclusive"):
+        print(agent.SD_WARNING + f"setup-oidc: unknown OIDC_LOGIN_MODE {mode!r}, using optional", file=sys.stderr)
+        mode = "optional"
+    return mode
 
 def read_oidc_settings():
     try:
@@ -52,7 +63,7 @@ if host:
 
 # The ldap_uuid claim is the user ID of user_ldap: OIDC logins map to the
 # existing LDAP accounts, and no other account is created
-ret, out = occ(["user_oidc:provider", oidc.get("OIDC_PROVIDER_NAME") or "Single Sign-On",
+ret, out = occ(["user_oidc:provider", os.getenv("OIDC_PROVIDER_NAME") or "Single Sign-On",
     "--clientid=" + oidc["OIDC_CLIENT_ID"],
     "--clientsecret=" + oidc["OIDC_CLIENT_SECRET"],
     "--discoveryuri=" + oidc["OIDC_ISSUER"].rstrip("/") + "/.well-known/openid-configuration",
@@ -66,8 +77,9 @@ if ret != 0:
     print(agent.SD_ERR + "setup-oidc: cannot configure the OIDC provider:", out.decode(errors="replace"), file=sys.stderr)
     sys.exit(1)
 occ(["config:system:set", "user_oidc", "auto_provision", "--type=boolean", "--value=false"])
-# Go straight to the identity provider, without the password form
+# In exclusive mode go straight to the identity provider, without the
+# password form. /login?direct=1 still shows it, for emergencies.
 occ(["config:app:set", "user_oidc", "allow_multiple_user_backends",
-    "--value=" + ("0" if oidc.get("OIDC_LOGIN_REDIRECT") == "1" else "1")])
+    "--value=" + ("0" if login_mode() == "exclusive" else "1")])
 
 print("setup-oidc: configuration completed", file=sys.stderr)

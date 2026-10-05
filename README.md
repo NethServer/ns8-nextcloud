@@ -77,18 +77,23 @@ add : `LDAP_MAIL_ATTRIBUTE=mail`
 Work in progress, see NethServer/dev#8080. Nextcloud can log users in
 with an OpenID Connect provider, like the NS8 idp module, next to the
 password login form. The provider is not discovered automatically yet:
-the settings are written manually in the `oidc.env` file of the module
-state directory. At every start of the `nextcloud-app` service the
-`setup-oidc` step installs and configures the `user_oidc` app, or
+the client settings are written manually in the `oidc.env` file of the
+module state directory. At every start of the `nextcloud-app` service
+the `setup-oidc` step installs and configures the `user_oidc` app, or
 disables it if the settings are missing.
 
-| Variable | Required | Description |
+| Variable in `oidc.env` | Required | Description |
 |---|---|---|
 | `OIDC_ISSUER` | yes | Issuer URL of the realm, for example `https://sso.example.org/realms/dp.example.org` |
 | `OIDC_CLIENT_ID` | yes | OIDC client ID |
 | `OIDC_CLIENT_SECRET` | yes | OIDC client secret |
-| `OIDC_PROVIDER_NAME` | no | Provider name in the login button, default `Single Sign-On` |
-| `OIDC_LOGIN_REDIRECT` | no | `1` redirects the login page straight to the provider, without the password form |
+
+Settings that are not secret are in the module environment:
+
+| Environment variable | Default | Description |
+|---|---|---|
+| `OIDC_LOGIN_MODE` | `optional` | `optional`: the login page shows the password form and the SSO button. `exclusive`: the login page goes straight to the provider. See below |
+| `OIDC_PROVIDER_NAME` | `Single Sign-On` | Provider name in the login button |
 
 OIDC logins map to the existing LDAP accounts of the user domain, and
 no other account is created:
@@ -122,7 +127,33 @@ otherwise the provider refuses the logout redirect.
 The `user_oidc` app is installed from the Nextcloud app store, so the
 first configuration needs Internet access. A failure of `setup-oidc` is
 logged and does not stop Nextcloud. The file is included in the module
-backup. Password logins keep working, for example for WebDAV clients.
+backup.
+
+### Login mode
+
+Set the login mode in the module environment, then restart the app
+service to apply it:
+
+```
+runagent -m nextcloud1 python3 -c 'import agent; agent.set_env("OIDC_LOGIN_MODE", "exclusive")'
+runagent -m nextcloud1 systemctl --user restart nextcloud-app.service
+```
+
+An unknown value works as `optional`, with a warning in the log.
+
+In `exclusive` mode the login page redirects to the provider. If the
+provider is down, the password form is still available at
+`https://<host>/login?direct=1`, for example for an administrator.
+
+In both modes, access that does not use the browser login keeps using
+the LDAP passwords: WebDAV clients, app passwords and the desktop and
+mobile clients.
+
+If the realm of the provider accepts only federated logins (the
+`federated` login mode of the idp module), use `exclusive`: otherwise
+the Nextcloud password form still accepts the LDAP passwords of native
+accounts, bypassing the federated provider and its multi-factor
+authentication.
 
 ## DB-fix script
 
