@@ -72,6 +72,89 @@ By adding `LDAP_MAIL_ATTRIBUTE` your users wil be able to login with :
 add : `LDAP_MAIL_ATTRIBUTE=mail`
 `systemctl --user restart nextcloud`
 
+## Single sign-on (OIDC)
+
+Work in progress, see NethServer/dev#8080. Nextcloud can log users in
+with an OpenID Connect provider, like the NS8 idp module, next to the
+password login form. The provider is not discovered automatically yet:
+the client settings are written manually in the `oidc.env` file of the
+module state directory. At every start of the `nextcloud-app` service
+the `setup-oidc` step installs and configures the `user_oidc` app, or
+disables it if the settings are missing.
+
+| Variable in `oidc.env` | Required | Description |
+|---|---|---|
+| `OIDC_ISSUER` | yes | Issuer URL of the realm, for example `https://sso.example.org/realms/dp.example.org` |
+| `OIDC_CLIENT_ID` | yes | OIDC client ID |
+| `OIDC_CLIENT_SECRET` | yes | OIDC client secret |
+
+Settings that are not secret are in the module environment:
+
+| Environment variable | Default | Description |
+|---|---|---|
+| `OIDC_LOGIN_MODE` | `optional` | `optional`: the login page shows the password form and the SSO button. `exclusive`: the login page goes straight to the provider. See below |
+| `OIDC_PROVIDER_NAME` | `Single Sign-On` | Provider name in the login button |
+
+OIDC logins map to the existing LDAP accounts of the user domain, and
+no other account is created:
+
+- the `ldap_uuid` claim of the token is the Nextcloud user ID, like the
+  user IDs of `user_ldap`: `entryUUID` on OpenLDAP, the uppercase
+  `objectGUID` on Active Directory;
+- the LDAP login filter also matches the UUID, so a user never seen by
+  Nextcloud can log in at the first try.
+
+The client of the provider needs the redirect URIs
+`https://<host>/apps/user_oidc/code` and
+`https://<host>/index.php/apps/user_oidc/code`.
+
+For example, with the idp module:
+
+```
+api-cli run module/idp1/register-client --data '{"domain": "dp.example.org", "module_id": "nextcloud1", "redirect_uris": ["https://cloud.example.org/apps/user_oidc/code", "https://cloud.example.org/index.php/apps/user_oidc/code"], "post_logout_redirect_uris": ["https://cloud.example.org/"], "web_origins": ["https://cloud.example.org"]}'
+runagent -m nextcloud1 sh -c 'umask 077; cat > oidc.env' <<'EOF'
+OIDC_ISSUER=https://sso.example.org/realms/dp.example.org
+OIDC_CLIENT_ID=nextcloud1
+OIDC_CLIENT_SECRET=<client_secret from register-client>
+EOF
+runagent -m nextcloud1 systemctl --user restart nextcloud-app.service
+```
+
+After the logout from the provider, the browser returns to the Nextcloud
+home page, `https://<host>/`: register it in `post_logout_redirect_uris`,
+otherwise the provider refuses the logout redirect.
+
+The `user_oidc` app is installed from the Nextcloud app store, so the
+first configuration needs Internet access. A failure of `setup-oidc` is
+logged and does not stop Nextcloud. The file is included in the module
+backup.
+
+### Login mode
+
+Set the login mode in the module environment, then restart the app
+service to apply it:
+
+```
+runagent -m nextcloud1 python3 -c 'import agent; agent.set_env("OIDC_LOGIN_MODE", "exclusive")'
+runagent -m nextcloud1 systemctl --user restart nextcloud-app.service
+```
+
+An unknown value works as `optional`, with a warning in the log.
+
+In `exclusive` mode the login page redirects to the provider. If the
+provider is down, the password form is still available at
+`https://<host>/login?direct=1`, for example for an administrator.
+
+In both modes, access that does not use the browser login keeps using
+the LDAP passwords: WebDAV clients, app passwords and the desktop and
+mobile clients.
+
+If the realm of the provider accepts only federated logins (the
+`federated` login mode of the idp module), use `exclusive`: otherwise
+the Nextcloud password form still accepts the LDAP passwords of native
+accounts, bypassing the federated provider and its multi-factor
+authentication.
+
 ## DB-fix script
 
 Nextcloud requires manual database fixes that cannot be automated during upgrade, as operations may take a long time with large amounts of data.

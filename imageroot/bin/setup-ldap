@@ -71,6 +71,15 @@ if cret > 0:
 
 ldap_mail_attribute = os.getenv("LDAP_MAIL_ATTRIBUTE", "")
 
+# With OIDC logins, user_oidc resolves a user not yet known to user_ldap
+# with the login filter and the UUID claim value: add the UUID attribute
+# to the filter (NethServer/dev#8080)
+try:
+    oidc = agent.read_envfile("oidc.env")
+except FileNotFoundError:
+    oidc = {}
+oidc_enabled = bool(oidc.get("OIDC_ISSUER") and oidc.get("OIDC_CLIENT_ID") and oidc.get("OIDC_CLIENT_SECRET"))
+
 # Static config for ldapproxy
 set_ldap("ldapHost", "10.0.2.2") # special podman IP
 set_ldap("ldapPort", domain["port"])
@@ -94,10 +103,12 @@ if domain["schema"] == "ad":
     set_ldap("ldapGroupFilter", "(&(objectClass=group)(!(cn=backup operators))(!(cn=users))(!(cn=read-only domain controllers))(!(cn=network configuration operators))(!(cn=enterprise admins))(!(cn=domain users))(!(cn=allowed rodc password replication group))(!(cn=iis_iusrs))(!(cn=incoming forest trust builders))(!(cn=domain computers))(!(cn=enterprise read-only domain controllers))(!(cn=replicator))(!(cn=schema admins))(!(cn=group policy creator owners))(!(cn=domain controllers))(!(cn=ras and ias servers))(!(cn=denied rodc password replication group))(!(cn=dnsupdateproxy))(!(cn=print operators))(!(cn=performance log users))(!(cn=account operators))(!(cn=windows authorization access group))(!(cn=server operators))(!(cn=terminal server license servers))(!(cn=remote desktop users))(!(cn=guests))(!(cn=performance monitor users))(!(cn=cert publishers))(!(cn=dnsadmins))(!(cn=cryptographic operators))(!(cn=administrators))(!(cn=event log readers))(!(cn=certificate service dcom access))(!(cn=pre-windows 2000 compatible access))(!(cn=domain guests))(!(cn=distributed com users)))")
     set_ldap("ldapGroupFilterObjectclass", "group")
     set_ldap("ldapGroupMemberAssocAttr", "member")
+    # Samba accepts the objectGUID string as filter value
+    uuid_clause = "(objectGUID=%uid)" if oidc_enabled else ""
     if ldap_mail_attribute:
-        set_ldap("ldapLoginFilter", "(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)(mail=%uid)))")
+        set_ldap("ldapLoginFilter", f"(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)(mail=%uid){uuid_clause}))")
     else:
-        set_ldap("ldapLoginFilter", "(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid)))")
+        set_ldap("ldapLoginFilter", f"(&(&(|(objectclass=person)))(|(sAMAccountName=%uid)(userPrincipalName=%uid){uuid_clause}))")
     set_ldap("ldapUserDisplayName", "displayName")
     set_ldap("ldapUserDisplayName2", "sAMAccountName")
     set_ldap("ldapUserFilter", "(&(|(objectclass=person)))")
@@ -111,7 +122,8 @@ else:
     set_ldap("ldapGroupFilter", "(&(|(objectclass=posixGroup)))")
     set_ldap("ldapGroupFilterObjectclass", "posixGroup")
     set_ldap("ldapGroupMemberAssocAttr", "memberUid")
-    set_ldap("ldapLoginFilter", "(&(|(objectclass=inetOrgPerson))(|(uid=%uid)(|(mail=%uid))))")
+    uuid_clause = "(entryUUID=%uid)" if oidc_enabled else ""
+    set_ldap("ldapLoginFilter", f"(&(|(objectclass=inetOrgPerson))(|(uid=%uid)(|(mail=%uid)){uuid_clause}))")
     set_ldap("ldapLoginFilterEmail", "1")
     set_ldap("ldapUserDisplayName", "displayName")
     set_ldap("ldapUserDisplayName2", "uid")
