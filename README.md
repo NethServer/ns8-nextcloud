@@ -106,7 +106,7 @@ The client of the provider needs the redirect URIs
 For example, with the idp module:
 
 ```
-api-cli run module/idp1/register-client --data '{"domain": "dp.example.org", "module_id": "nextcloud1", "redirect_uris": ["https://cloud.example.org/apps/user_oidc/code", "https://cloud.example.org/index.php/apps/user_oidc/code"], "web_origins": ["https://cloud.example.org"]}'
+api-cli run module/idp1/register-client --data '{"domain": "dp.example.org", "module_id": "nextcloud1", "redirect_uris": ["https://cloud.example.org/apps/user_oidc/code", "https://cloud.example.org/index.php/apps/user_oidc/code"], "post_logout_redirect_uris": ["https://cloud.example.org/"], "web_origins": ["https://cloud.example.org"]}'
 runagent -m nextcloud1 sh -c 'umask 077; cat > oidc.env' <<'EOF'
 OIDC_ISSUER=https://sso.example.org/realms/dp.example.org
 OIDC_CLIENT_ID=nextcloud1
@@ -114,6 +114,10 @@ OIDC_CLIENT_SECRET=<client_secret from register-client>
 EOF
 runagent -m nextcloud1 systemctl --user restart nextcloud-app.service
 ```
+
+After the logout from the provider, the browser returns to the Nextcloud
+home page, `https://<host>/`: register it in `post_logout_redirect_uris`,
+otherwise the provider refuses the logout redirect.
 
 The `user_oidc` app is installed from the Nextcloud app store, so the
 first configuration needs Internet access. A failure of `setup-oidc` is

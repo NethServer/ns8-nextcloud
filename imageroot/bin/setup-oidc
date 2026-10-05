@@ -43,6 +43,13 @@ if occ(["app:enable", "user_oidc"])[0] != 0:
         print(agent.SD_ERR + "setup-oidc: cannot install the user_oidc app:", out.decode(errors="replace"), file=sys.stderr)
         sys.exit(1)
 
+# After the logout from the provider, come back to the Nextcloud home
+# page. The URI must be registered in the client of the provider.
+logout_args = []
+host = agent.read_envfile("config.env").get("OVERWRITEHOST")
+if host:
+    logout_args = ["--postlogouturi=https://" + host + "/"]
+
 # The ldap_uuid claim is the user ID of user_ldap: OIDC logins map to the
 # existing LDAP accounts, and no other account is created
 ret, out = occ(["user_oidc:provider", oidc.get("OIDC_PROVIDER_NAME") or "Single Sign-On",
@@ -54,7 +61,7 @@ ret, out = occ(["user_oidc:provider", oidc.get("OIDC_PROVIDER_NAME") or "Single 
     "--mapping-uid=ldap_uuid",
     "--mapping-display-name=name",
     "--mapping-email=email",
-])
+] + logout_args)
 if ret != 0:
     print(agent.SD_ERR + "setup-oidc: cannot configure the OIDC provider:", out.decode(errors="replace"), file=sys.stderr)
     sys.exit(1)
