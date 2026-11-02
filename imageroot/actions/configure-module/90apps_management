@@ -18,7 +18,7 @@ occ -n notify_push:setup http://127.0.0.1/push
 # setup needs the internal URL for its self-test, clients need the public one
 host=$(jq -r '.host // empty' config.json)
 if [[ -n "$host" ]]; then
-    occ config:app:set notify_push base_endpoint --value="https://${host}/push"
+    occ config:app:set notify_push base_endpoint --value="https://${host}/push" || { echo "failed to set notify_push base_endpoint" >&2; exit 1; }
 fi
 
 # Suppress error when notify push versions do not match, see https://github.com/NethServer/dev/issues/7450
