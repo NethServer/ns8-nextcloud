@@ -18,3 +18,11 @@ occ config:system:set maintenance_window_start --value=1 --type=integer
 occ app:disable logreader
 # added for nextcloud 28 (1.0.8)
 # end
+
+# advertise the public push endpoint to clients, see https://github.com/NethServer/dev/issues/8272
+# only replace the old internal value, keep an endpoint set by hand
+host=$(jq -r '.host // empty' config.json 2>/dev/null)
+endpoint=$(occ config:app:get notify_push base_endpoint | tr -d '\r')
+if [[ -n "$host" && "$endpoint" == "http://127.0.0.1/push" ]]; then
+    occ config:app:set notify_push base_endpoint --value="https://${host}/push"
+fi
