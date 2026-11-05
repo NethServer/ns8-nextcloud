@@ -58,6 +58,96 @@ Example:
 runagent -m nextcloud1 vi zzz_nethserver.conf
 ```
 
+## Two-factor authentication (TOTP)
+
+See the [Nextcloud two-factor documentation](https://docs.nextcloud.com/server/stable/admin_manual/configuration_user/two_factor-auth.html) for all options.
+
+### Enforce TOTP for all users
+
+```
+runagent -m nextcloud1 occ twofactorauth:enforce --on
+```
+Output:
+```
+Two-factor authentication is enforced for all users
+```
+
+Users without a second factor must set up TOTP at their next login.
+To limit it to some groups, use `--group <group>` or `--exclude <group>`.
+
+Check the current policy:
+```
+runagent -m nextcloud1 occ twofactorauth:enforce
+```
+
+Stop enforcing it:
+```
+runagent -m nextcloud1 occ twofactorauth:enforce --off
+```
+Output:
+```
+Two-factor authentication is not enforced
+```
+
+### Find the user ID
+
+LDAP users have an internal Nextcloud ID (a UUID), not their login name:
+```
+runagent -m nextcloud1 occ user:list
+```
+Output:
+```
+  - admin: admin
+  - 0A1B2C3D-0000-4000-8000-000000000001: John Doe (john.doe)
+  - 0A1B2C3D-0000-4000-8000-000000000002: Jane Smith (jane.smith)
+```
+
+Here the ID of `john.doe` is `0A1B2C3D-0000-4000-8000-000000000001`.
+
+### Disable TOTP for a user
+
+Use this when a user lost their authenticator app:
+```
+runagent -m nextcloud1 occ twofactorauth:disable 0A1B2C3D-0000-4000-8000-000000000001 totp
+```
+Output:
+```
+Two-factor provider totp disabled for user 0A1B2C3D-0000-4000-8000-000000000001.
+```
+
+This also deletes the TOTP secret, so the old authenticator entry stops working.
+The user then enrolls again with a new QR code:
+- if TOTP is enforced, Nextcloud asks to set it up right after the password at the next login
+- otherwise, the user enables TOTP in Personal settings > Security
+
+Backup codes do not count as a second factor, so they do not bypass this step.
+Do not use `occ twofactorauth:cleanup totp` here: it removes TOTP data for all users.
+
+### Check the enrollment
+
+```
+runagent -m nextcloud1 occ twofactorauth:state 0A1B2C3D-0000-4000-8000-000000000001
+```
+
+After the reset, before the user enrolls again:
+```
+Two-factor authentication is not enabled for user 0A1B2C3D-0000-4000-8000-000000000001
+
+Disabled providers:
+- backup_codes
+- totp
+```
+
+Once the user has enrolled, `totp` is listed as enabled:
+```
+Two-factor authentication is enabled for user 0A1B2C3D-0000-4000-8000-000000000001
+
+Enabled providers:
+- totp
+Disabled providers:
+- backup_codes
+```
+
 ## Specific ldap mail field for Samba AD
 
 You can change the mail field used by Nextcloud with an environment variable. The default LDAP mail field is `userPrincipalName`, which corresponds to the AD domain name and not the user's email address.
