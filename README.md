@@ -62,6 +62,15 @@ runagent -m nextcloud1 vi zzz_nethserver.conf
 
 See the [Nextcloud two-factor documentation](https://docs.nextcloud.com/server/stable/admin_manual/configuration_user/two_factor-auth.html) for all options.
 
+### Enable the TOTP app
+
+The TOTP app is disabled by default. Enable it first:
+```
+runagent -m nextcloud1 occ app:enable twofactor_totp
+```
+
+You can also enable it from the Nextcloud web interface, in Apps > Disabled apps > Two-Factor TOTP Provider.
+
 ### Enforce TOTP for all users
 
 ```
