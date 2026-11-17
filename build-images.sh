@@ -20,7 +20,7 @@ corepack_version=0.36.0
 # Reuse existing nodebuilder-nextcloud container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-nextcloud; then
     echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-nextcloud -v "${PWD}:/usr/src:Z" docker.io/library/node:26.13.0-slim
+    buildah from --name nodebuilder-nextcloud -v "${PWD}:/usr/src:Z" docker.io/library/node:26.13.1-slim
     buildah run nodebuilder-nextcloud sh -c "npm install -g corepack@${corepack_version} && corepack enable"
 fi
 
